@@ -1,0 +1,19 @@
+{
+   "firstMatch": {
+        "date": "1 июня",
+        "time": "12:00",
+        "rates": {
+            "firstTeam": {
+                "name": "Кек",
+                "rate": 1.2
+            },
+            "draw": {
+                "rate": 0.5
+            },
+            "secondTeam": {
+                "name": "Кок",
+                "rate": 2.1
+            }
+        }
+   }
+}

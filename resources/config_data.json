@@ -1,0 +1,7 @@
+{
+    "browser": "chrome",
+    "is_maximize": true,
+    "is_headless": false,
+    "base_URL": ["https://www.fonbet.kz/sports/football/11978/41279434/"],
+    "wait_time": 19000
+}
