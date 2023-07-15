@@ -1,8 +1,8 @@
 {
-   "firstMatch": {
+   "game": {
         "date": "{{ date }}",
         "time": "{{ time }}",
-        "rates": {
+        "teams": {
             "firstTeam": {
                 "name": "{{ first_name }}",
                 "rate": "{{ first_rate }}"

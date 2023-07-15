@@ -3,7 +3,7 @@
     "is_maximize": true,
     "is_headless": true,
     "is_logger": false,
-    "base_URL": ["https://www.fonbet.kz/sports/volleyball/93518/41400932/"],
+    "base_URL": ["https://www.fonbet.kz/sports/football/80073/41403394/"],
     "base_URLL": ["https://www.fonbet.kz/sports/football/80073/41403392/"],
     "base_URLLL": ["https://www.fonbet.kz/sports/football/80073/41403392/", "https://www.fonbet.kz/sports/football/80073/41403388/", "https://www.fonbet.kz/sports/football/80073/41403394/", "https://www.fonbet.kz/sports/football/80073/41403396/", "https://www.fonbet.kz/sports/football/80073/41403382/"],
     "wait_time": 15,

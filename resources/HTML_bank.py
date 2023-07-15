@@ -175,7 +175,7 @@ class HTMLBank:
             align-items: flex-start;
             justify-content: center;
             height: 124px;
-            width: 170px
+            width: 200px
         }}
         .mirror-image {{
             margin-left: 0;
@@ -192,7 +192,7 @@ class HTMLBank:
             flex-direction: column;
             justify-content: center;
             height: 124px;
-            width: 170px;
+            width: 200px;
             order: -1;
             align-items: flex-end;
             text-align: right;
@@ -246,105 +246,25 @@ class HTMLBank:
             <div class="small-title">Турик</div>
             <div class="big-title">Кекеров</div>
         </div>
-        <div class="date">30 июня</div>
+        <div class="date">{models_list[0].game.date}</div>
         <div class="table">
             <div class="row">
                 <div class="cell">
                     <div class="image"></div>
                     <div class="info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">1.0</div>
+                        <div class="name">{models_list[0].game.teams.firstTeam.name}</div>
+                        <div class="rate">{models_list[0].game.teams.firstTeam.rate}</div>
                     </div>
                 </div>
                 <div class="middle-cell">
-                    <div class="time">18:00</div>
-                    <div class="middle-rate">30.0</div>
+                    <div class="time">{models_list[0].game.time}</div>
+                    <div class="middle-rate">{models_list[0].game.teams.draw.rate}</div>
                 </div>
                 <div class="mirror-cell">
                     <div class="mirror-image"></div>
                     <div class="mirror-info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">25.0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div class="name">Koko</div>
-                        <div class="rate">1.0</div>
-                    </div>
-                </div>
-                <div class="middle-cell">
-                    <div class="time">18:00</div>
-                    <div class="middle-rate">30.0</div>
-                </div>
-                <div class="mirror-cell">
-                    <div class="mirror-image"></div>
-                    <div class="mirror-info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">25.0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div class="name">Koko</div>
-                        <div class="rate">1.0</div>
-                    </div>
-                </div>
-                <div class="middle-cell">
-                    <div class="time">18:00</div>
-                    <div class="middle-rate">30.0</div>
-                </div>
-                <div class="mirror-cell">
-                    <div class="mirror-image"></div>
-                    <div class="mirror-info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">25.0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div class="name">Koko</div>
-                        <div class="rate">1.0</div>
-                    </div>
-                </div>
-                <div class="middle-cell">
-                    <div class="time">18:00</div>
-                    <div class="middle-rate">30.0</div>
-                </div>
-                <div class="mirror-cell">
-                    <div class="mirror-image"></div>
-                    <div class="mirror-info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">25.0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div class="name">Koko</div>
-                        <div class="rate">1.0</div>
-                    </div>
-                </div>
-                <div class="middle-cell">
-                    <div class="time">18:00</div>
-                    <div class="middle-rate">30.0</div>
-                </div>
-                <div class="mirror-cell">
-                    <div class="mirror-image"></div>
-                    <div class="mirror-info">
-                        <div class="name">Kokooooo</div>
-                        <div class="rate">25.0</div>
+                        <div class="name">{models_list[0].game.teams.secondTeam.name}</div>
+                        <div class="rate">{models_list[0].game.teams.secondTeam.rate}</div>
                     </div>
                 </div>
             </div>
