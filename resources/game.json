@@ -1,0 +1,19 @@
+{
+    "firstMatch": {
+        "date": "19 июля",
+        "time": "20:55",
+        "rates": {
+            "firstTeam": {
+                "name": "США",
+                "rate": "1.52"
+            },
+            "draw": {
+                "rate": null
+            },
+            "secondTeam": {
+                "name": "Франция",
+                "rate": "2.35"
+            }
+        }
+    }
+}

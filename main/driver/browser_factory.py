@@ -18,6 +18,9 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
 
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
+                
+                if (ConfigManager.get_config_data().timeout):
+                    cls.__instance.set_page_load_timeout(ConfigManager.get_config_data().timeout)
 
             elif (ConfigManager.get_config_data().browser == 'firefox'):
                 options = webdriver.FirefoxOptions()
@@ -26,6 +29,9 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
 
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
+                
+                if (ConfigManager.get_config_data().timeout):
+                    cls.__instance.set_page_load_timeout(ConfigManager.get_config_data().timeout)
 
     @classutilities.classproperty
     def instance(cls):
