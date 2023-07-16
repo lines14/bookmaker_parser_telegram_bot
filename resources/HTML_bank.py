@@ -1,6 +1,6 @@
 class HTMLBank:
     def get_HTML_from_template(models_list):
-        return f'''<!DOCTYPE html>
+        head = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -247,28 +247,31 @@ class HTMLBank:
             <div class="big-title">Кекеров</div>
         </div>
         <div class="date">{models_list[0].game.date}</div>
-        <div class="table">
-            <div class="row">
+        <div class="table">'''
+
+        body = ''
+        for game in models_list:
+            temp = f'''<div class="row">
                 <div class="cell">
                     <div class="image"></div>
                     <div class="info">
-                        <div class="name">{models_list[0].game.teams.firstTeam.name}</div>
-                        <div class="rate">{models_list[0].game.teams.firstTeam.rate}</div>
+                        <div class="name">{game.game.teams.firstTeam.name}</div>
+                        <div class="rate">{game.game.teams.firstTeam.rate}</div>
                     </div>
                 </div>
                 <div class="middle-cell">
-                    <div class="time">{models_list[0].game.time}</div>
-                    <div class="middle-rate">{models_list[0].game.teams.draw.rate}</div>
+                    <div class="time">{game.game.time}</div>
+                    <div class="middle-rate">{game.game.teams.draw.rate}</div>
                 </div>
                 <div class="mirror-cell">
                     <div class="mirror-image"></div>
                     <div class="mirror-info">
-                        <div class="name">{models_list[0].game.teams.secondTeam.name}</div>
-                        <div class="rate">{models_list[0].game.teams.secondTeam.rate}</div>
+                        <div class="name">{game.game.teams.secondTeam.name}</div>
+                        <div class="rate">{game.game.teams.secondTeam.rate}</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>'''
+            </div>'''
+
+            body+=temp
+
+        return head+body+'</div></div></body></html>'

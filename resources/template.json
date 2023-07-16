@@ -5,14 +5,16 @@
         "teams": {
             "firstTeam": {
                 "name": "{{ first_name }}",
-                "rate": "{{ first_rate }}"
+                "rate": "{{ first_rate }}",
+                "logo": "{{ logo }}"
             },
             "draw": {
                 "rate": "{{ draw_rate }}"
             },
             "secondTeam": {
                 "name": "{{ second_name }}",
-                "rate": "{{ second_rate }}"
+                "rate": "{{ second_rate }}",
+                "logo": "{{ logo }}"
             }
         }
    }
