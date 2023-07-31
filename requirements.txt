@@ -1,0 +1,5 @@
+classutilities==0.2.1
+imgkit==1.2.3
+jsontemplates==0.1.0
+rutimeparser==1.1.1
+selenium==4.10.0
