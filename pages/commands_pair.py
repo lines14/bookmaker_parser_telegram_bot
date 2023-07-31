@@ -17,7 +17,7 @@ class CommandsPair(BaseForm):
         rates_list = self.rates_rows.parse_elements_for_text()
         rates_list.reverse()
         summary_list = rates_list.pop().split('\n')
-        if summary_list == 4:
+        if len(summary_list) == 4:
             summary_list.insert(2, None)
             summary_list.insert(2, None)
         
@@ -26,11 +26,10 @@ class CommandsPair(BaseForm):
         logo_list = self.logo.parse_elements_for_attr('style')
         for logo_link in logo_list:
             if 'background-image' in logo_link:
-                summary_list.extend(logo_link[25:-3])
+                summary_list.append(logo_link[25:-3])
             else:
                 summary_list.append(None)
 
-        print(summary_list)
         return summary_list
     
 

@@ -5,14 +5,16 @@
         "rates": {
             "firstTeam": {
                 "name": "США",
-                "rate": "1.52"
+                "rate": "1.52",
+                "logo": "origin.kzac51-resources.com/ContentCommon/Logotypes/TeamLogos/Football/Russia/new300/CSKA_Moscow.png"
             },
             "draw": {
                 "rate": null
             },
             "secondTeam": {
                 "name": "Франция",
-                "rate": "2.35"
+                "rate": "2.35",
+                "logo": "origin.kzac51-resources.com/ContentCommon/Logotypes/TeamLogos/Football/Russia/new300/Lokomotiv_Moscow.png"
             }
         }
     }

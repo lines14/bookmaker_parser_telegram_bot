@@ -170,6 +170,7 @@ class HTMLBank:
         }}
         .info {{
             margin-left: 20px;
+            margin-right: 20px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -186,7 +187,7 @@ class HTMLBank:
             border-radius: 20px;
         }}
         .mirror-info {{
-            margin-left: 0x;
+            margin-right: 20px;
             margin-right: 20px;
             display: flex;
             flex-direction: column;
@@ -253,7 +254,7 @@ class HTMLBank:
         for game in models_list:
             temp = f'''<div class="row">
                 <div class="cell">
-                    <div class="image"></div>
+                    <img class="image" src="https://{game.game.teams.firstTeam.logo}" alt="First team logo">
                     <div class="info">
                         <div class="name">{game.game.teams.firstTeam.name}</div>
                         <div class="rate">{game.game.teams.firstTeam.rate}</div>
@@ -264,7 +265,7 @@ class HTMLBank:
                     <div class="middle-rate">{game.game.teams.draw.rate}</div>
                 </div>
                 <div class="mirror-cell">
-                    <div class="mirror-image"></div>
+                    <img class="mirror-image" src="https://{game.game.teams.secondTeam.logo}" alt="Second team logo">
                     <div class="mirror-info">
                         <div class="name">{game.game.teams.secondTeam.name}</div>
                         <div class="rate">{game.game.teams.secondTeam.rate}</div>
