@@ -16,3 +16,4 @@ async def get_pair_info(state):
 
         HTMLUtils.generate_HTML(data['tournament_name'], models_list)
         HTMLUtils.HTML_to_jpg()
+        BrowserUtils.quit_driver()

@@ -2,10 +2,12 @@ from aiogram import types, Dispatcher
 from bot.bot_base import bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_keyboard
+from bot.buttons import main_menu_keyboard, cancellation_keyboard
 from aiogram.utils import exceptions
 from bot.get_pair_info import get_pair_info
 from pathlib import Path
+from main.driver.browser_utils import BrowserUtils
+from selenium import common
 destination = Path(__file__).resolve().parent.parent
 
 # Машины состояний бота
@@ -52,17 +54,22 @@ async def generate(message: types.Message, state: FSMContext):
     #     get_pair_info(DataUtils.dict_to_model(data))
     #     await state.finish()
 
-    await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер...', reply_markup=main_menu_keyboard)
+    await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер...', reply_markup=cancellation_keyboard)
     async with state.proxy() as data:
         data['games'].append(message.text)
     await get_pair_info(state)
-    await message.reply_document(open(f'{destination}/index.jpg', 'rb'))
+    await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
     await state.finish()
 
-# Антифлуд
+# Обработчики ошибок
 
 async def exception_handler(update: types.Update, exception: exceptions.RetryAfter):
     await bot.send_message(chat_id = update.message.from_user.id, text='Сервера telegram перегружены, попробуй позже =)', reply_markup=main_menu_keyboard)
+    return True
+
+async def selenium_timeout_exception_handler(update: types.Update, exception: common.exceptions.TimeoutException):
+    BrowserUtils.quit_driver()
+    await bot.send_message(chat_id = update.message.from_user.id, text='Проблемы с интернетом, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
     return True
 
 # Регистратура хэндлеров бота
@@ -77,3 +84,4 @@ def register_handler_client(dp: Dispatcher):
     dp.register_message_handler(generate, state=Generator.generator2)
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
+    dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)

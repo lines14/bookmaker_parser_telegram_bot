@@ -14,12 +14,15 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument("--headless=new")
                     options.add_argument('--disable-gpu')
+
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument("--lang={}".format(browser_locale))
+
                 cls.__instance = webdriver.Chrome(options=options)
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
+
                 if (ConfigManager.get_config_data().timeout):
                     cls.__instance.set_page_load_timeout(ConfigManager.get_config_data().timeout)
 
@@ -29,12 +32,15 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument("--headless=new")
                     options.add_argument('--disable-gpu')
+
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument("--lang={}".format(browser_locale))
+
                 cls.__instance = webdriver.Firefox(options=options)
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
+                    
                 if (ConfigManager.get_config_data().timeout):
                     cls.__instance.set_page_load_timeout(ConfigManager.get_config_data().timeout)
 
