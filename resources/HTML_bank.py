@@ -165,7 +165,6 @@ class HTMLBank:
             margin-left: 20px;
             width: 70px;
             height: 70px;
-            background-color: black;
             border-radius: 20px;
         }}
         .info {{
@@ -183,7 +182,6 @@ class HTMLBank:
             margin-right: 20px;
             width: 70px;
             height: 70px;
-            background-color: black;
             border-radius: 20px;
         }}
         .mirror-info {{
