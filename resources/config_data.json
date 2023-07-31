@@ -1,11 +1,12 @@
 {
     "browser": "chrome",
+    "locale": "ru",
     "is_maximize": true,
     "is_headless": false,
     "is_logger": false,
-    "base_URLLL": ["https://www.fonbet.kz/sports/football/66848/41431096/"],
-    "base_URLL": ["https://www.fonbet.kz/sports/football/66848/41431096/"],
-    "base_URL": ["https://www.fonbet.kz/sports/football/66848/41431096/", "https://www.fonbet.kz/sports/football/66848/41431086/", "https://www.fonbet.kz/sports/volleyball/93437/41466924/"],
+    "base_URLLL": ["https://www.fonbet.kz/sports/football/11935/41577837/"],
+    "base_URLL": ["https://www.fonbet.kz/sports/football/11935/41577837/"],
+    "base_URL": ["https://www.fonbet.kz/sports/football/11935/41577837/"],
     "wait_time": 15,
     "timeout": 20
 }
