@@ -1,3 +1,4 @@
+aiogram==2.25.1
 classutilities==0.2.1
 imgkit==1.2.3
 jsontemplates==0.1.0

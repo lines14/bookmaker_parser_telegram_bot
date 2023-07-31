@@ -41,11 +41,11 @@ class DataUtils:
         return obj
     
     @classmethod
-    def game_dict_to_model(cls, dict):
+    def dict_to_model(cls, dict):
         return json.loads(dict, object_hook=cls.nested_data_to_models)
     
     @classmethod
-    def game_list_to_dict(cls, game_list):
+    def list_to_dict(cls, game_list):
         json_tmp = JsonTemplates()
         json_tmp.load('../../../resources/template.json')
         game_dict = {
