@@ -47,7 +47,7 @@ class DataUtils:
     @classmethod
     def list_to_dict(cls, game_list):
         json_tmp = JsonTemplates()
-        json_tmp.load('../../../resources/template.json')
+        json_tmp.load('../../../resources/game_schema.json')
         game_dict = {
             "first_name": f"{game_list[0]}",
             "first_rate": f"{game_list[1]}",
