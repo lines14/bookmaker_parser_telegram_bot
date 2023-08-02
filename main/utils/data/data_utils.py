@@ -1,3 +1,4 @@
+import re
 import json
 from json_templates import JsonTemplates
 from main.utils.log.logger import Logger
@@ -61,3 +62,24 @@ class DataUtils:
         }
         
         return json.dumps(json_tmp.generate(game_dict)[1], ensure_ascii=False)
+    
+    @classmethod
+    def links_processing(cls, text):
+        if 'fonbet.kz' in text:
+            if text.count('fonbet.kz') > 1:
+                if ',' in text:
+                    splitted = text.split(',')
+                else:
+                    splitted = text.split()
+                trimmed = list(map(lambda element: re.sub('[,| ]', '', element), splitted))
+                if 'https' in text:
+                    return trimmed
+                else:
+                    return list(map(lambda element: 'https://www.'+element, trimmed))
+            else:
+                if 'https' in text:
+                    return text
+                else:
+                    return 'https://www.'+text
+        else:
+            return False

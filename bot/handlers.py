@@ -8,6 +8,7 @@ from aiogram.utils import exceptions
 from bot.get_pair_info import get_pair_info
 from pathlib import Path
 from main.driver.browser_utils import BrowserUtils
+from main.utils.data.data_utils import DataUtils
 from selenium import common
 destination = Path(__file__).resolve().parent.parent
 
@@ -46,14 +47,11 @@ async def input_links(message: types.Message, state: FSMContext):
     await Generator.generator2.set()
     if message.text.count('fonbet.kz') == 1:
         async with state.proxy() as data:
-            data['games'].append(message.text)
+            data['games'].append(DataUtils.links_processing(message.text))
         await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
     else:
         async with state.proxy() as data:
-            if ',' in message.text:
-                data['games'] = message.text.split(',')
-            else:
-                data['games'] = message.text.split()
+            data['games'] = DataUtils.links_processing(message.text)
         await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
     await Generator.next()
 
