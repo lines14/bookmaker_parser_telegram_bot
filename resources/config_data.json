@@ -4,7 +4,7 @@
     "is_maximize": true,
     "is_headless": true,
     "is_logger": false,
-    "base_URL": ["https://www.fonbet.kz/sports/football/11935/41577837/", "https://www.fonbet.kz/sports/football/11935/41578094/", "https://www.fonbet.kz/sports/football/11935/41163538/", "https://www.fonbet.kz/sports/football/11935/41577826/", "https://www.fonbet.kz/sports/football/11935/41577808/"],
+    "base_URL": ["https://www.fonbet.kz/sports/football/11935/41577837/", "https://www.fonbet.kz/sports/football/11935/41578094/", "https://www.fonbet.kz/sports/football/11935/41577826/", "https://www.fonbet.kz/sports/football/11935/41577808/"],
     "wait_time": 15,
     "timeout": 20
 }
