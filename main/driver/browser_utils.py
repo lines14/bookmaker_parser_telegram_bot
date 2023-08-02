@@ -84,6 +84,7 @@ class BrowserUtils:
     
     @staticmethod
     def quit_driver():
-        Logger.log('    ▶ quit driver')
-        BrowserFactory.instance.quit()
-        BrowserFactory.instance = None
+        if BrowserFactory.instance:
+            Logger.log('    ▶ quit driver')
+            BrowserFactory.instance.quit()
+            BrowserFactory.instance = None

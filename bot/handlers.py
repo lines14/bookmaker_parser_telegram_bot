@@ -3,6 +3,7 @@ from bot.bot_base import bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_keyboard
+from aiogram.types import ReplyKeyboardRemove
 from aiogram.utils import exceptions
 from bot.get_pair_info import get_pair_info
 from pathlib import Path
@@ -22,9 +23,6 @@ class Generator(StatesGroup):
 async def start_command(message: types.Message):
     fullname = message.from_user.full_name
     await bot.send_message(chat_id=message.from_user.id, text=f'{fullname}, привет!\nВ этом боте ты можешь автоматически генерировать баннеры.\nДля того, чтобы это сделать, тебе достаточно нажать кнопку внизу:', reply_markup=main_menu_keyboard)
-
-async def restart_command(message: types.Message):
-    await bot.send_message(chat_id=message.from_user.id, text='Для того, чтобы сгенерировать баннер, нажми кнопку внизу:', reply_markup=main_menu_keyboard)
 
 async def restart_command_for_all_FSM(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
@@ -55,7 +53,7 @@ async def generate(message: types.Message, state: FSMContext):
     if message.text != 'Сгенерировать!':
         await input_links(message, state)
     else:
-        await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=cancellation_keyboard)
+        await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
         await get_pair_info(state)
         await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
         await state.finish()
@@ -75,7 +73,6 @@ async def selenium_timeout_exception_handler(update: types.Update, exception: co
 
 def register_handler_client(dp: Dispatcher):
     dp.register_message_handler(start_command, commands=['start'])
-    dp.register_message_handler(restart_command, text='Отмена')
     dp.register_message_handler(restart_command_for_all_FSM, state='*', text=['Отмена', '/start'])
 
     dp.register_message_handler(start_creation, text='Начать', state=None)
