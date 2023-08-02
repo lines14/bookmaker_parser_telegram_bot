@@ -44,19 +44,24 @@ async def input_tournament_name(message: types.Message, state: FSMContext):
     await bot.send_message(chat_id = message.from_user.id, text='Добавь ссылку на матч или список ссылок на матчи:', reply_markup=cancellation_keyboard)
 
 async def input_links(message: types.Message, state: FSMContext):
-    await Generator.generator2.set()
-    if message.text.count('fonbet.kz') == 1:
-        async with state.proxy() as data:
-            data['games'].append(DataUtils.links_processing(message.text))
-        await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
+    if DataUtils.links_processing(message.text):
+        if message.text.count('fonbet.kz') == 1:
+            async with state.proxy() as data:
+                data['games'].append(DataUtils.links_processing(message.text))
+            await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
+        else:
+            async with state.proxy() as data:
+                data['games'] = DataUtils.links_processing(message.text)
+            await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+        await Generator.next()
     else:
-        async with state.proxy() as data:
-            data['games'] = DataUtils.links_processing(message.text)
-        await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
-    await Generator.next()
+        await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй заново =)', reply_markup=cancellation_keyboard)
+        await Generator.generator1.set()
+        await start_creation(message)
 
 async def generate(message: types.Message, state: FSMContext):
     if message.text != 'Сгенерировать!':
+        await Generator.generator2.set()
         await input_links(message, state)
     else:
         await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
