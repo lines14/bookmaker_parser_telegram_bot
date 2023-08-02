@@ -2,11 +2,10 @@ from pages.commands_pair import CommandsPair
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
 from main.utils.markup.HTML_utils import HTMLUtils
-models_list = []
 
 async def get_pair_info(state):
+    models_list = []
     async with state.proxy() as data:
-        # data_model = DataUtils.dict_to_model(data)
         BrowserUtils.init_the_driver()
         for game in data['games']:
             BrowserUtils.get_url(game)
