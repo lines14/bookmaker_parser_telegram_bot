@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_keyboard
 from aiogram.types import ReplyKeyboardRemove
 from aiogram.utils import exceptions
-from bot.get_pair_info import get_pair_info
+from bot.parser import Parser
 from pathlib import Path
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
@@ -74,7 +74,7 @@ async def generate(message: types.Message, state: FSMContext):
             await input_links(message, state)
         else:
             await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
-            await get_pair_info(state)
+            await Parser.get_pair_info(state)
             await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
             await state.finish()
     else:
