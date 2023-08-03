@@ -18,6 +18,7 @@ class Generator(StatesGroup):
     generator1 = State()
     generator2 = State()
     generator3 = State()
+    generator4 = State()
 
 # Хэндлеры бота
 
@@ -41,33 +42,45 @@ async def input_tournament_name(message: types.Message, state: FSMContext):
         data['games'] = []
         data['tournament_name'] = message.text
     await Generator.next()
+    await input_first_link(message)
+
+async def input_first_link(message: types.Message):
+    await Generator.next()
     await bot.send_message(chat_id = message.from_user.id, text='Добавь ссылку на матч или список ссылок на матчи:', reply_markup=cancellation_keyboard)
 
 async def input_links(message: types.Message, state: FSMContext):
-    if DataUtils.links_processing(message.text):
-        if message.text.count('fonbet.kz') == 1:
-            async with state.proxy() as data:
+    async with state.proxy() as data:
+        if DataUtils.links_processing(message.text):
+            if message.text.count('fonbet.kz') == 1:
                 data['games'].append(DataUtils.links_processing(message.text))
-            await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
-        else:
-            async with state.proxy() as data:
+                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
+            else:
                 data['games'] = DataUtils.links_processing(message.text)
-            await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
-        await Generator.next()
-    else:
-        await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй заново =)', reply_markup=cancellation_keyboard)
-        await Generator.generator1.set()
-        await start_creation(message)
+                await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+            await Generator.next()
+        else:
+            if data['games']:
+                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию без неё:', reply_markup=generation_keyboard)
+                await Generator.next()
+            else:
+                await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+                await Generator.generator2.set()
+                await input_first_link(message)
 
 async def generate(message: types.Message, state: FSMContext):
-    if message.text != 'Сгенерировать!':
-        await Generator.generator2.set()
-        await input_links(message, state)
+    if DataUtils.links_processing(message.text):
+        if message.text != 'Сгенерировать!':
+            await Generator.generator3.set()
+            await input_links(message, state)
+        else:
+            await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
+            await get_pair_info(state)
+            await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
+            await state.finish()
     else:
-        await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
-        await get_pair_info(state)
-        await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
-        await state.finish()
+        await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+        await Generator.generator3.set()
+        await input_links(message, state)
 
 # Обработчики ошибок
 
@@ -88,8 +101,9 @@ def register_handler_client(dp: Dispatcher):
 
     dp.register_message_handler(start_creation, text='Начать', state=None)
     dp.register_message_handler(input_tournament_name, state=Generator.generator1)
-    dp.register_message_handler(input_links, state=Generator.generator2)
-    dp.register_message_handler(generate, state=Generator.generator3)
+    dp.register_message_handler(input_first_link, state=Generator.generator2)
+    dp.register_message_handler(input_links, state=Generator.generator3)
+    dp.register_message_handler(generate, state=Generator.generator4)
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)

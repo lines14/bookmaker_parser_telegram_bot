@@ -81,5 +81,7 @@ class DataUtils:
                     return text
                 else:
                     return 'https://www.'+text
+        elif text == 'Сгенерировать!':
+            return True
         else:
             return False
