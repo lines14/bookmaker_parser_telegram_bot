@@ -39,7 +39,7 @@ async def start_creation(message: types.Message):
 
 async def input_tournament_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['games'] = []
+        data['links'] = []
         data['tournament_name'] = message.text
     await Generator.next()
     await input_first_link(message)
@@ -52,14 +52,14 @@ async def input_links(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if DataUtils.links_processing(message.text):
             if message.text.count('fonbet.kz') == 1:
-                data['games'].append(DataUtils.links_processing(message.text))
+                data['links'].append(DataUtils.links_processing(message.text))
                 await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
             else:
-                data['games'] = DataUtils.links_processing(message.text)
+                data['links'] = DataUtils.links_processing(message.text)
                 await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
             await Generator.next()
         else:
-            if data['games']:
+            if data['links']:
                 await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию без неё:', reply_markup=generation_keyboard)
                 await Generator.next()
             else:
@@ -95,7 +95,7 @@ async def selenium_timeout_exception_handler(update: types.Update, exception: co
 
 # Регистратура хэндлеров бота
 
-def register_handler_client(dp: Dispatcher):
+def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start_command, commands=['start'])
     dp.register_message_handler(restart_command_for_all_FSM, state='*', text=['Отмена', '/start'])
 

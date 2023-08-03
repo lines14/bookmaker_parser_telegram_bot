@@ -7,7 +7,7 @@ async def on_startup(_):
     DatabaseUtils.sql_start()
     print('Бот успешно запущен!')
 
-handlers.register_handler_client(dp)
+handlers.register_handlers(dp)
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup, timeout=200)

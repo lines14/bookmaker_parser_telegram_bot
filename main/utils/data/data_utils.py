@@ -45,8 +45,8 @@ class DataUtils:
     def dict_to_model(cls, dict):
         return json.loads(json.dumps(dict, ensure_ascii=False), object_hook=cls.nested_data_to_models)
     
-    @classmethod
-    def list_to_dict(cls, game_list):
+    @staticmethod
+    def list_to_dict(game_list):
         json_tmp = JsonTemplates()
         json_tmp.load('../../../resources/game_schema.json')
         game_dict = {
@@ -63,8 +63,8 @@ class DataUtils:
         
         return json_tmp.generate(game_dict)[1]
     
-    @classmethod
-    def links_processing(cls, text):
+    @staticmethod
+    def links_processing(text):
         if 'fonbet.kz' in text:
             if text.count('fonbet.kz') > 1:
                 if ',' in text:
