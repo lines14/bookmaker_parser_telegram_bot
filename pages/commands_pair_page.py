@@ -1,11 +1,10 @@
-import re
 import locale
-locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 from rutimeparser import parse
 from main.base_form import BaseForm
 from main.elements.base_element_children.label import Label
+locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
-class CommandsPair(BaseForm):
+class CommandsPairPage(BaseForm):
     def __init__(self):
         super().__init__('//div[contains(@class, "tab--") and contains(text(), "1-й")]', 'match page')
         self.rates_rows = Label('//div[contains(@class, "row-common--")]', 'rates rows')

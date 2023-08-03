@@ -75,6 +75,7 @@ async def generate(message: types.Message, state: FSMContext):
         else:
             await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
             await Parser.get_pair_info(state)
+            await Parser.generate_picture()
             await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
             await state.finish()
     else:
