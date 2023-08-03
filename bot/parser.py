@@ -23,6 +23,7 @@ class Parser:
                 DatabaseUtils.sql_add_original_name(game.game.teams.firstTeam.name)
                 DatabaseUtils.sql_add_original_name(game.game.teams.secondTeam.name)
                 
+            # print(DatabaseUtils.sql_get_original_name(game.game.teams.secondTeam.name)[0][0])
             BrowserUtils.quit_driver()
 
     @staticmethod
