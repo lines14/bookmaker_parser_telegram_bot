@@ -10,5 +10,9 @@ class DatabaseUtils:
         cur = base.cursor()
         if base:
             print('[ОК] - База данных подключена!')
-        base.execute("CREATE TABLE IF NOT EXISTS names_mapping(original_name TEXT, short_name TEXT)")
+        base.execute("CREATE TABLE IF NOT EXISTS names_mapping(original_name TEXT PRIMARY KEY, short_name TEXT)")
         base.commit()
+
+    def sql_add_original_name(name):
+        cur.execute("INSERT OR REPLACE INTO names_mapping (original_name) VALUES (?)", (name,))
+        base.commit()     

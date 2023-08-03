@@ -31,13 +31,3 @@ class CommandsPair(BaseForm):
                 summary_list.append(None)
 
         return summary_list
-    
-
-
-
-
-
-
-
-
-    # https://www.fonbet.kz/sports/boxing/66232/41387197/
