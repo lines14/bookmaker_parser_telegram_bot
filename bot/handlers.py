@@ -72,13 +72,15 @@ async def input_links(message: types.Message, state: FSMContext):
 
 async def check_names(message: types.Message, state: FSMContext):
     global long_names_list
+    global template_set
     if DataUtils.links_processing(message.text):
         if message.text != 'Проверить названия!':
             await Generator.generator3.set()
             await input_links(message, state)
         else:
             await Parser.get_pair_info(state)
-            long_names_list = await Parser.check_original_name()
+            long_names_list = await Parser.check_original_names()
+            template_set = set(long_names_list)
             if long_names_list:
                 await Generator.generator6.set()
                 await input_short_name(message)
@@ -87,6 +89,7 @@ async def check_names(message: types.Message, state: FSMContext):
                 await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
 
 async def generate(message: types.Message, state: FSMContext):
+    await Parser.add_short_names(state)
     await Parser.generate_picture()
     await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
     await state.finish()
@@ -100,8 +103,12 @@ async def input_short_name(message: types.Message):
 async def save_short_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data[long_name] = message.text
-    await Generator.generator5.set()
-    await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+        if set((list(data.keys()))[2:]) != template_set:
+            await Generator.generator6.set()
+            await input_short_name(message)
+        else:
+            await Generator.generator5.set()
+            await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
     
 
 # Обработчики ошибок

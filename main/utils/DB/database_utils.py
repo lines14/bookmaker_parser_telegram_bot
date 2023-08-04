@@ -28,5 +28,5 @@ class DatabaseUtils:
     
     @staticmethod
     def sql_add_short_name(original_name, short_name):
-        cur.execute("INSERT OR REPLACE INTO names_mapping (short_name) VALUES (?) WHERE original_name = (?);", (short_name, original_name))
+        cur.execute("UPDATE names_mapping SET short_name = (?) WHERE original_name LIKE (?);", (short_name, original_name))
         base.commit()

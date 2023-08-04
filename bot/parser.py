@@ -27,7 +27,7 @@ class Parser:
             BrowserUtils.quit_driver()
 
     @staticmethod
-    async def check_original_name(arg=None):
+    async def check_original_names(arg=None):
         if type(arg) == str:
             return bool(DatabaseUtils.sql_check_short_name(arg))
         else:
@@ -40,6 +40,12 @@ class Parser:
             
             if long_names_list:
                 return long_names_list
+            
+    @staticmethod
+    async def add_short_names(state):
+        async with state.proxy() as data:
+            for mapped_names in list(data.items())[2:]:
+                DatabaseUtils.sql_add_short_name(mapped_names[1], mapped_names[0])
 
     @staticmethod
     async def generate_picture():
