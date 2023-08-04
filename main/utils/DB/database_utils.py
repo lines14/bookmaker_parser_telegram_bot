@@ -19,5 +19,14 @@ class DatabaseUtils:
         base.commit()
 
     @staticmethod
-    def sql_get_original_name(name):
+    def sql_check_original_name(name):
         return cur.execute("SELECT EXISTS(SELECT 1 FROM names_mapping WHERE original_name = (?));", (name,)).fetchall()
+    
+    @staticmethod
+    def sql_check_short_name(name):
+        return cur.execute("SELECT short_name FROM names_mapping WHERE original_name = (?);", (name,)).fetchall()
+    
+    @staticmethod
+    def sql_add_short_name(original_name, short_name):
+        cur.execute("INSERT OR REPLACE INTO names_mapping (short_name) VALUES (?) WHERE original_name = (?);", (short_name, original_name))
+        base.commit()

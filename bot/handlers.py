@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from bot.bot_base import bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_keyboard
+from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_keyboard, check_keyboard
 from aiogram.types import ReplyKeyboardRemove
 from aiogram.utils import exceptions
 from bot.parser import Parser
@@ -19,6 +19,9 @@ class Generator(StatesGroup):
     generator2 = State()
     generator3 = State()
     generator4 = State()
+    generator5 = State()
+    generator6 = State()
+    generator7 = State()
 
 # Хэндлеры бота
 
@@ -53,35 +56,53 @@ async def input_links(message: types.Message, state: FSMContext):
         if DataUtils.links_processing(message.text):
             if message.text.count('fonbet.kz') == 1:
                 data['links'].append(DataUtils.links_processing(message.text))
-                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию:', reply_markup=generation_keyboard)
+                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или проверь названия без неё:', reply_markup=check_keyboard)
             else:
                 data['links'] = DataUtils.links_processing(message.text)
-                await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+                await bot.send_message(chat_id = message.from_user.id, text='Проверь названия кнопкой внизу:', reply_markup=check_keyboard)
             await Generator.next()
         else:
             if data['links']:
-                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или начни генерацию без неё:', reply_markup=generation_keyboard)
+                await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или проверь названия без неё:', reply_markup=check_keyboard)
                 await Generator.next()
             else:
                 await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
                 await Generator.generator2.set()
                 await input_first_link(message)
 
-async def generate(message: types.Message, state: FSMContext):
+async def check_names(message: types.Message, state: FSMContext):
+    global long_names_list
     if DataUtils.links_processing(message.text):
-        if message.text != 'Сгенерировать!':
+        if message.text != 'Проверить названия!':
             await Generator.generator3.set()
             await input_links(message, state)
         else:
-            await bot.send_message(chat_id = message.from_user.id, text='Ожидай баннер:', reply_markup=ReplyKeyboardRemove())
             await Parser.get_pair_info(state)
-            await Parser.generate_picture()
-            await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
-            await state.finish()
-    else:
-        await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
-        await Generator.generator3.set()
-        await input_links(message, state)
+            long_names_list = await Parser.check_original_name()
+            if long_names_list:
+                await Generator.generator6.set()
+                await input_short_name(message)
+            else:
+                await Generator.next()
+                await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+
+async def generate(message: types.Message, state: FSMContext):
+    await Parser.generate_picture()
+    await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
+    await state.finish()
+
+async def input_short_name(message: types.Message):
+    global long_name
+    long_name = long_names_list.pop()
+    await Generator.next()
+    await bot.send_message(chat_id = message.from_user.id, text=f'Добавь короткое название для "{long_name}"', reply_markup=cancellation_keyboard)
+
+async def save_short_name(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data[long_name] = message.text
+    await Generator.generator5.set()
+    await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
+    
 
 # Обработчики ошибок
 
@@ -104,7 +125,10 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(input_tournament_name, state=Generator.generator1)
     dp.register_message_handler(input_first_link, state=Generator.generator2)
     dp.register_message_handler(input_links, state=Generator.generator3)
-    dp.register_message_handler(generate, state=Generator.generator4)
+    dp.register_message_handler(check_names, state=Generator.generator4)
+    dp.register_message_handler(generate, text='Сгенерировать!', state=Generator.generator5)
+    dp.register_message_handler(input_short_name, state=Generator.generator6)
+    dp.register_message_handler(save_short_name, state=Generator.generator7)
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)

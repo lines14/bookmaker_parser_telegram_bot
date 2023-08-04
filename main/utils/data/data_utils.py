@@ -1,7 +1,6 @@
 import re
 import json
 from json_templates import JsonTemplates
-from main.utils.log.logger import Logger
 
 class DataUtils:            
     @classmethod
@@ -50,7 +49,7 @@ class DataUtils:
                     return text
                 else:
                     return 'https://www.'+text
-        elif text == 'Сгенерировать!':
+        elif text == 'Проверить названия!':
             return True
         else:
             return False

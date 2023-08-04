@@ -2,6 +2,7 @@ from pages.commands_pair_page import CommandsPairPage
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
 from main.utils.markup.HTML_utils import HTMLUtils
+from main.utils.data.config_manager import ConfigManager
 from main.utils.DB.database_utils import DatabaseUtils
 
 class Parser:
@@ -22,9 +23,23 @@ class Parser:
             for game in game_models_list:
                 DatabaseUtils.sql_add_original_name(game.game.teams.firstTeam.name)
                 DatabaseUtils.sql_add_original_name(game.game.teams.secondTeam.name)
-                
-            # print(DatabaseUtils.sql_get_original_name(game.game.teams.secondTeam.name)[0][0])
+            
             BrowserUtils.quit_driver()
+
+    @staticmethod
+    async def check_original_name(arg=None):
+        if type(arg) == str:
+            return bool(DatabaseUtils.sql_check_short_name(arg))
+        else:
+            long_names_list = []
+            for game in game_models_list:
+                if len(game.game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length or not DatabaseUtils.sql_check_short_name(game.game.teams.firstTeam.name):
+                    long_names_list.append(DataUtils.dict_to_model(game.game.teams.firstTeam.name))
+                if len(game.game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length or not DatabaseUtils.sql_check_short_name(game.game.teams.secondTeam.name):
+                    long_names_list.append(DataUtils.dict_to_model(game.game.teams.secondTeam.name))
+            
+            if long_names_list:
+                return long_names_list
 
     @staticmethod
     async def generate_picture():
