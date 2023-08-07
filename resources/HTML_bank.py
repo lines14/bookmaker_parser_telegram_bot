@@ -1,5 +1,5 @@
 class HTMLBank:
-    def get_HTML_from_template(tournament_name, models_list):
+    def get_HTML_from_template(competition_type, tournament_name, models_list):
         head = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -242,7 +242,7 @@ class HTMLBank:
     <div class="background">
         <img class="logo" src="./assets/logo.svg" width="191" height="46">
         <div class="stripe">
-            <div class="small-title">{tournament_name}</div>
+            <div class="small-title">{competition_type}</div>
             <div class="big-title">{tournament_name}</div>
         </div>
         <div class="date">{models_list[0].game.date}</div>

@@ -22,6 +22,7 @@ class Generator(StatesGroup):
     generator5 = State()
     generator6 = State()
     generator7 = State()
+    generator8 = State()
 
 # Хэндлеры бота
 
@@ -38,6 +39,12 @@ async def restart_command_for_all_FSM(message: types.Message, state: FSMContext)
 
 async def start_creation(message: types.Message):
     await Generator.generator1.set()
+    await bot.send_message(chat_id=message.from_user.id, text='Введи вид спорта:', reply_markup=cancellation_keyboard)
+
+async def input_competition_type(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['competition_type'] = message.text
+    await Generator.next()
     await bot.send_message(chat_id=message.from_user.id, text='Введи название турнира:', reply_markup=cancellation_keyboard)
 
 async def input_tournament_name(message: types.Message, state: FSMContext):
@@ -67,7 +74,7 @@ async def input_links(message: types.Message, state: FSMContext):
                 await Generator.next()
             else:
                 await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
-                await Generator.generator2.set()
+                await Generator.generator3.set()
                 await input_first_link(message)
 
 async def check_names(message: types.Message, state: FSMContext):
@@ -75,7 +82,7 @@ async def check_names(message: types.Message, state: FSMContext):
     global template_set
     if DataUtils.links_processing(message.text):
         if message.text != 'Проверить названия!':
-            await Generator.generator3.set()
+            await Generator.generator4.set()
             await input_links(message, state)
         else:
             await bot.send_message(chat_id = message.from_user.id, text='Ожидай...', reply_markup=ReplyKeyboardRemove())
@@ -83,7 +90,7 @@ async def check_names(message: types.Message, state: FSMContext):
             long_names_list = await Parser.check_names_length()
             if long_names_list:
                 template_set = set(long_names_list)
-                await Generator.generator6.set()
+                await Generator.generator7.set()
                 await input_short_name(message)
             else:
                 await Generator.next()
@@ -104,11 +111,11 @@ async def input_short_name(message: types.Message):
 async def save_short_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data[long_name] = message.text
-        if set((list(data.keys()))[2:]) != template_set:
-            await Generator.generator6.set()
+        if set((list(data.keys()))[3:]) != template_set:
+            await Generator.generator7.set()
             await input_short_name(message)
         else:
-            await Generator.generator5.set()
+            await Generator.generator6.set()
             await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
     
 
@@ -130,13 +137,14 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(restart_command_for_all_FSM, state='*', text=['Отмена', '/start'])
 
     dp.register_message_handler(start_creation, text='Начать', state=None)
-    dp.register_message_handler(input_tournament_name, state=Generator.generator1)
-    dp.register_message_handler(input_first_link, state=Generator.generator2)
-    dp.register_message_handler(input_links, state=Generator.generator3)
-    dp.register_message_handler(check_names, state=Generator.generator4)
-    dp.register_message_handler(generate, text='Сгенерировать!', state=Generator.generator5)
-    dp.register_message_handler(input_short_name, state=Generator.generator6)
-    dp.register_message_handler(save_short_name, state=Generator.generator7)
+    dp.register_message_handler(input_competition_type, state=Generator.generator1)
+    dp.register_message_handler(input_tournament_name, state=Generator.generator2)
+    dp.register_message_handler(input_first_link, state=Generator.generator3)
+    dp.register_message_handler(input_links, state=Generator.generator4)
+    dp.register_message_handler(check_names, state=Generator.generator5)
+    dp.register_message_handler(generate, text='Сгенерировать!', state=Generator.generator6)
+    dp.register_message_handler(input_short_name, state=Generator.generator7)
+    dp.register_message_handler(save_short_name, state=Generator.generator8)
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)
