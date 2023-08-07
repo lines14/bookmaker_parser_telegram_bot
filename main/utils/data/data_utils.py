@@ -39,7 +39,7 @@ class DataUtils:
                     splitted = text.split(',')
                 else:
                     splitted = text.split()
-                trimmed = list(map(lambda element: re.sub('[,| ]', '', element), splitted))
+                trimmed = list(map(lambda element: re.sub('[,| |\n]', '', element), splitted))
                 if 'https' in text:
                     return trimmed
                 else:
