@@ -78,10 +78,11 @@ async def check_names(message: types.Message, state: FSMContext):
             await Generator.generator3.set()
             await input_links(message, state)
         else:
+            await bot.send_message(chat_id = message.from_user.id, text='Ожидай...', reply_markup=ReplyKeyboardRemove())
             await Parser.get_pair_info(state)
-            long_names_list = await Parser.check_original_names()
-            template_set = set(long_names_list)
+            long_names_list = await Parser.check_names_length()
             if long_names_list:
+                template_set = set(long_names_list)
                 await Generator.generator6.set()
                 await input_short_name(message)
             else:
