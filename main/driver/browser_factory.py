@@ -12,12 +12,12 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 options = webdriver.ChromeOptions()
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
-                    options.add_argument("--headless=new")
+                    options.add_argument('--headless=new')
                     options.add_argument('--disable-gpu')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
-                    options.add_argument("--lang={}".format(browser_locale))
+                    options.add_argument('--lang={}'.format(browser_locale))
 
                 cls.__instance = webdriver.Chrome(options=options)
                 if (ConfigManager.get_config_data().is_maximize):
@@ -30,12 +30,12 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 options = webdriver.FirefoxOptions()
                 options.add_argument('-private')
                 if (ConfigManager.get_config_data().is_headless):
-                    options.add_argument("--headless=new")
+                    options.add_argument('--headless=new')
                     options.add_argument('--disable-gpu')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
-                    options.add_argument("--lang={}".format(browser_locale))
+                    options.add_argument('--lang={}'.format(browser_locale))
 
                 cls.__instance = webdriver.Firefox(options=options)
                 if (ConfigManager.get_config_data().is_maximize):

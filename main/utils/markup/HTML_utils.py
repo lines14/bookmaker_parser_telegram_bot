@@ -10,5 +10,5 @@ class HTMLUtils:
             data.write(HTMLBank.get_HTML_from_template(competition_type, tournament_name, models_list))
 
     def HTML_to_jpg(size):
-        hti = Html2Image(output_path=destination, size=tuple(size))
+        hti = Html2Image(output_path=destination, size=tuple(size), custom_flags='--disable-gpu')
         hti.screenshot(url=f'{destination}/index.html', save_as='index.jpg')

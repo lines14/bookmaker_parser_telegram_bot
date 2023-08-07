@@ -4,3 +4,4 @@ env/
 bot/config.py
 index.html
 index.jpg
+resources/database.db
