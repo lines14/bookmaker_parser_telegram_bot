@@ -7,5 +7,7 @@
     "base_URL": ["https://www.fonbet.kz/sports/football/11935/41577837/", "https://www.fonbet.kz/sports/football/11935/41578094/", "https://www.fonbet.kz/sports/football/11935/41577826/", "https://www.fonbet.kz/sports/football/11935/41577808/"],
     "wait_time": 15,
     "timeout": 20,
-    "names_length": 9
+    "names_length": 9,
+    "large_size": [1080, 1920],
+    "small_size": [1080, 1080]
 }
