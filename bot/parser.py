@@ -27,21 +27,18 @@ class Parser:
                     DatabaseUtils.sql_add_original_name(game.game.teams.secondTeam.name)
             
             BrowserUtils.quit_driver()
-
+        
     @staticmethod
-    async def check_names_length(arg=None):
-        if type(arg) == str:
-            return bool(DatabaseUtils.sql_get_short_name(arg))
-        else:
-            long_names_list = []
-            for game in game_models_list:
-                if len(game.game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.firstTeam.name)[0][0]:
-                    long_names_list.append(DataUtils.dict_to_model(game.game.teams.firstTeam.name))
-                if len(game.game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.secondTeam.name)[0][0]:
-                    long_names_list.append(DataUtils.dict_to_model(game.game.teams.secondTeam.name))
-            
-            if long_names_list:
-                return long_names_list
+    async def check_names_length():
+        long_names_list = []
+        for game in game_models_list:
+            if len(game.game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.firstTeam.name)[0][0]:
+                long_names_list.append(DataUtils.dict_to_model(game.game.teams.firstTeam.name))
+            if len(game.game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.secondTeam.name)[0][0]:
+                long_names_list.append(DataUtils.dict_to_model(game.game.teams.secondTeam.name))
+        
+        if long_names_list:
+            return long_names_list
             
     @staticmethod
     async def add_short_names(state):

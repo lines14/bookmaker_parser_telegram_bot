@@ -6,6 +6,7 @@ from bot.buttons import main_menu_keyboard, cancellation_keyboard, generation_ke
 from aiogram.types import ReplyKeyboardRemove
 from aiogram.utils import exceptions
 from bot.parser import Parser
+from bot.modifier import Modificator
 from pathlib import Path
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
@@ -24,7 +25,12 @@ class Generator(StatesGroup):
     generator7 = State()
     generator8 = State()
 
+class Modifier(StatesGroup):
+    modifier1 = State()
+    modifier2 = State()
+
 # Хэндлеры бота
+# Приветствие и отмена
 
 async def start_command(message: types.Message):
     fullname = message.from_user.full_name
@@ -36,6 +42,8 @@ async def restart_command_for_all_FSM(message: types.Message, state: FSMContext)
         return
     await state.finish()
     await bot.send_message(chat_id=message.from_user.id, text='Для того, чтобы сгенерировать баннер, нажми кнопку внизу:', reply_markup=main_menu_keyboard)
+
+# Генератор
 
 async def start_creation(message: types.Message):
     await Generator.generator1.set()
@@ -73,7 +81,7 @@ async def input_links(message: types.Message, state: FSMContext):
                 await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или проверь названия без неё:', reply_markup=check_keyboard)
                 await Generator.next()
             else:
-                await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на сайт fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+                await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на страницы с матчами сайта fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
                 await Generator.generator3.set()
                 await input_first_link(message)
 
@@ -118,6 +126,32 @@ async def save_short_name(message: types.Message, state: FSMContext):
             await Generator.generator6.set()
             await bot.send_message(chat_id = message.from_user.id, text='Начни генерацию кнопкой внизу:', reply_markup=generation_keyboard)
     
+# Модификатор БД
+
+async def start_modification(message: types.Message):
+    await Modifier.modifier1.set()
+    await bot.send_message(chat_id=message.from_user.id, text='Для корректировки уже добавленного короткого названия команды, введи полное название этой команды с сайта:', reply_markup=cancellation_keyboard)
+
+async def check_original_name_exists(message: types.Message, state: FSMContext):
+    if await Modificator.check_original_name(message.text):
+        async with state.proxy() as data:
+            data['original_name'] = message.text
+        short_name = await Modificator.get_short_name(message.text)
+        if short_name:
+            await bot.send_message(chat_id=message.from_user.id, text=f'Короткое название команды: "{short_name}"\nЧтобы его перезаписать, введи новое короткое название команды:', reply_markup=cancellation_keyboard)
+        else:
+            await bot.send_message(chat_id=message.from_user.id, text=f'Короткое название команды отсутствует. Введи новое короткое название команды:', reply_markup=cancellation_keyboard)
+        await Modifier.next()
+    else:
+        await bot.send_message(chat_id=message.from_user.id, text='Команда отсутствует в базе данных, начни генерацию из ссылки, чтобы добавить название:', reply_markup=main_menu_keyboard)
+        await state.finish()
+
+async def replace_short_name(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['short_name'] = message.text
+    await Modificator.add_short_name(state)
+    await bot.send_message(chat_id=message.from_user.id, text='Короткое название команды изменено', reply_markup=main_menu_keyboard)
+    await state.finish()
 
 # Обработчики ошибок
 
@@ -133,8 +167,13 @@ async def selenium_timeout_exception_handler(update: types.Update, exception: co
 # Регистратура хэндлеров бота
 
 def register_handlers(dp: Dispatcher):
+
+    # Приветствие и отмена
+
     dp.register_message_handler(start_command, commands=['start'])
     dp.register_message_handler(restart_command_for_all_FSM, state='*', text=['Отмена', '/start'])
+
+    # Генератор
 
     dp.register_message_handler(start_creation, text='Начать', state=None)
     dp.register_message_handler(input_competition_type, state=Generator.generator1)
@@ -145,6 +184,14 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(generate, text='Сгенерировать!', state=Generator.generator6)
     dp.register_message_handler(input_short_name, state=Generator.generator7)
     dp.register_message_handler(save_short_name, state=Generator.generator8)
+
+    # Модификатор БД
+
+    dp.register_message_handler(start_modification, text='Изменить короткое название', state=None)
+    dp.register_message_handler(check_original_name_exists, state=Modifier.modifier1)
+    dp.register_message_handler(replace_short_name, state=Modifier.modifier2)
+
+    # Обработчики ошибок
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)

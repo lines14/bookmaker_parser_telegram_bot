@@ -37,18 +37,22 @@ class DataUtils:
             if text.count('fonbet.kz') > 1:
                 if ',' in text:
                     splitted = text.split(',')
+                elif '\n' in text:
+                    splitted = text.split('\n')
                 else:
                     splitted = text.split()
                 trimmed = list(map(lambda element: re.sub('[,| |\n]', '', element), splitted))
                 if 'https' in text:
-                    return trimmed
+                    return list(filter(lambda element: len(element) > 21, trimmed))
                 else:
-                    return list(map(lambda element: 'https://www.'+element, trimmed))
+                    linked = list(map(lambda element: 'https://www.'+element, trimmed))
+                    return list(filter(lambda element: len(element) > 21, linked))
             else:
-                if 'https' in text:
-                    return text
-                else:
-                    return 'https://www.'+text
+                if len(text) > 21:
+                    if 'https' in text:
+                        return text
+                    else:
+                        return 'https://www.'+text
         elif text == 'Проверить названия!':
             return True
         else:
