@@ -10,6 +10,7 @@ from bot.modifier import Modificator
 from pathlib import Path
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
+from main.utils.data.config_manager import ConfigManager
 from selenium import common
 destination = Path(__file__).resolve().parent.parent
 
@@ -28,6 +29,9 @@ class Generator(StatesGroup):
 class Modifier(StatesGroup):
     modifier1 = State()
     modifier2 = State()
+
+class Config(StatesGroup):
+    config1 = State()
 
 # Хэндлеры бота
 # Приветствие и отмена
@@ -153,6 +157,23 @@ async def replace_short_name(message: types.Message, state: FSMContext):
     await bot.send_message(chat_id=message.from_user.id, text='Короткое название команды изменено', reply_markup=main_menu_keyboard)
     await state.finish()
 
+# Конфигуратор требуемой длины названий
+
+async def start_configuration(message: types.Message):
+    await Config.config1.set()
+    names_length = ConfigManager.get_config_data().names_length
+    await bot.send_message(chat_id=message.from_user.id, text=f'Текущая требуемая длина коротких названий команд: {names_length}\nЧтобы изменить её, введи новое числовое значение больше нуля:', reply_markup=cancellation_keyboard)
+
+async def set_configuration(message: types.Message, state: FSMContext):
+    if message.text.isdecimal() and int(message.text) > 0:
+        ConfigManager.set_names_length(int(message.text))
+        await bot.send_message(chat_id=message.from_user.id, text='Требуемая длина коротких названий команд изменена', reply_markup=main_menu_keyboard)
+        await state.finish()
+    else:
+        await bot.send_message(chat_id=message.from_user.id, text='Требуемая длина коротких названий команд должна вводиться цифрой больше нуля, попробуй ещё раз =)', reply_markup=main_menu_keyboard)
+        await Config.config1.set()
+        await start_configuration(message)
+
 # Обработчики ошибок
 
 async def exception_handler(update: types.Update, exception: exceptions.RetryAfter):
@@ -190,6 +211,11 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start_modification, text='Изменить короткое название', state=None)
     dp.register_message_handler(check_original_name_exists, state=Modifier.modifier1)
     dp.register_message_handler(replace_short_name, state=Modifier.modifier2)
+
+    # Конфигуратор требуемой длины названий
+
+    dp.register_message_handler(start_configuration, text='Изменить требуемую длину коротких названий', state=None)
+    dp.register_message_handler(set_configuration, state=Config.config1)
 
     # Обработчики ошибок
 
