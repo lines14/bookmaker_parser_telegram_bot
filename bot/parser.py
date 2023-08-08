@@ -1,3 +1,5 @@
+from datetime import datetime
+from rutimeparser import parse
 from pages.commands_pair_page import CommandsPairPage
 from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
@@ -21,10 +23,10 @@ class Parser:
                 game_models_list.append(DataUtils.dict_to_model(DataUtils.list_to_dict(commands_pair_page.get_date_time_rates())))
 
             for game in game_models_list:
-                if not DatabaseUtils.sql_check_original_name(game.game.teams.firstTeam.name)[0][0]:
-                    DatabaseUtils.sql_add_original_name(game.game.teams.firstTeam.name)
-                if not DatabaseUtils.sql_check_original_name(game.game.teams.secondTeam.name)[0][0]:
-                    DatabaseUtils.sql_add_original_name(game.game.teams.secondTeam.name)
+                if not DatabaseUtils.sql_check_original_name(game.teams.firstTeam.name)[0][0]:
+                    DatabaseUtils.sql_add_original_name(game.teams.firstTeam.name)
+                if not DatabaseUtils.sql_check_original_name(game.teams.secondTeam.name)[0][0]:
+                    DatabaseUtils.sql_add_original_name(game.teams.secondTeam.name)
             
             BrowserUtils.quit_driver()
         
@@ -32,10 +34,10 @@ class Parser:
     async def check_names_length():
         long_names_list = []
         for game in game_models_list:
-            if len(game.game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.firstTeam.name)[0][0]:
-                long_names_list.append(DataUtils.dict_to_model(game.game.teams.firstTeam.name))
-            if len(game.game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.game.teams.secondTeam.name)[0][0]:
-                long_names_list.append(DataUtils.dict_to_model(game.game.teams.secondTeam.name))
+            if len(game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.teams.firstTeam.name)[0][0]:
+                long_names_list.append(DataUtils.dict_to_model(game.teams.firstTeam.name))
+            if len(game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.teams.secondTeam.name)[0][0]:
+                long_names_list.append(DataUtils.dict_to_model(game.teams.secondTeam.name))
         
         if long_names_list:
             return long_names_list
@@ -46,15 +48,16 @@ class Parser:
             for mapped_names in list(data.items())[2:]:
                 DatabaseUtils.sql_add_short_name(mapped_names[0], mapped_names[1])
             for game in game_models_list:
-                first_team_short_name = DatabaseUtils.sql_get_short_name(game.game.teams.firstTeam.name)[0][0]
-                second_team_short_name = DatabaseUtils.sql_get_short_name(game.game.teams.secondTeam.name)[0][0]
+                first_team_short_name = DatabaseUtils.sql_get_short_name(game.teams.firstTeam.name)[0][0]
+                second_team_short_name = DatabaseUtils.sql_get_short_name(game.teams.secondTeam.name)[0][0]
                 if first_team_short_name:
-                    game.game.teams.firstTeam.name = first_team_short_name
+                    game.teams.firstTeam.name = first_team_short_name
                 if second_team_short_name:
-                    game.game.teams.secondTeam.name = second_team_short_name
+                    game.teams.secondTeam.name = second_team_short_name
 
 
     @staticmethod
     async def generate_picture():
-        HTMLUtils.generate_HTML(summary_links_model.competition_type, summary_links_model.tournament_name, game_models_list)
+        unix_sorted_game_models_list = sorted(game_models_list, key=lambda game: int(datetime.strptime(str(parse(game.date)),'%Y-%m-%d').timestamp()))
+        HTMLUtils.generate_HTML(summary_links_model.competition_type, summary_links_model.tournament_name, unix_sorted_game_models_list)
         HTMLUtils.HTML_to_jpg(ConfigManager.get_config_data().large_size)

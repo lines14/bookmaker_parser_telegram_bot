@@ -1,21 +1,19 @@
 {
-   "game": {
-        "date": "{{ date }}",
-        "time": "{{ time }}",
-        "teams": {
-            "firstTeam": {
-                "name": "{{ first_name }}",
-                "rate": "{{ first_rate }}",
-                "logo": "{{ first_logo }}"
-            },
-            "draw": {
-                "rate": "{{ draw_rate }}"
-            },
-            "secondTeam": {
-                "name": "{{ second_name }}",
-                "rate": "{{ second_rate }}",
-                "logo": "{{ second_logo }}"
-            }
+    "date": "{{ date }}",
+    "time": "{{ time }}",
+    "teams": {
+        "firstTeam": {
+            "name": "{{ first_name }}",
+            "rate": "{{ first_rate }}",
+            "logo": "{{ first_logo }}"
+        },
+        "draw": {
+            "rate": "{{ draw_rate }}"
+        },
+        "secondTeam": {
+            "name": "{{ second_name }}",
+            "rate": "{{ second_rate }}",
+            "logo": "{{ second_logo }}"
         }
-   }
+    }
 }

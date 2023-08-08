@@ -250,7 +250,7 @@ class HTMLBank:
 
         body = ''
         for game in models_list:
-            section = f'''<div class="row">
+            block = f'''<div class="row">
                 <div class="cell">
                     <img class="image" src="https://{game.teams.firstTeam.logo}" alt="First team logo">
                     <div class="info">
@@ -271,6 +271,6 @@ class HTMLBank:
                 </div>
             </div>'''
 
-            body+=section
+            body+=block
 
         return head+body+'</div></div></body></html>'
