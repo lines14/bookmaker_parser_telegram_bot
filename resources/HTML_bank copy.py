@@ -1,5 +1,5 @@
 class HTMLBank:
-    def get_HTML_from_template(competition_type, tournament_name, models_list):
+    def get_HTML_from_template(competition_type, tournament_name, game_models_list):
         head = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,12 +245,12 @@ class HTMLBank:
             <div class="small-title">{competition_type}</div>
             <div class="big-title">{tournament_name}</div>
         </div>
-        <div class="date">{models_list[0].date}</div>
+        <div class="date">{game_models_list[0].date}</div>
         <div class="table">'''
 
         body = ''
-        for game in models_list:
-            block = f'''<div class="row">
+        for game in game_models_list:
+            section = f'''<div class="row">
                 <div class="cell">
                     <img class="image" src="https://{game.teams.firstTeam.logo}" alt="First team logo">
                     <div class="info">
@@ -271,6 +271,6 @@ class HTMLBank:
                 </div>
             </div>'''
 
-            body+=block
+            body+=section
 
         return head+body+'</div></div></body></html>'

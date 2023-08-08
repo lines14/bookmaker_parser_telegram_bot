@@ -1,5 +1,5 @@
 class HTMLBank:
-    def get_HTML_from_template(competition_type, tournament_name, models_list):
+    def get_HTML_from_template(competition_type, tournament_name, game_models_list):
         head = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -244,33 +244,37 @@ class HTMLBank:
         <div class="stripe">
             <div class="small-title">{competition_type}</div>
             <div class="big-title">{tournament_name}</div>
-        </div>
-        <div class="date">{models_list[0].date}</div>
-        <div class="table">'''
+        </div>'''
 
         body = ''
-        for game in models_list:
-            section = f'''<div class="row">
-                <div class="cell">
-                    <img class="image" src="https://{game.teams.firstTeam.logo}" alt="First team logo">
-                    <div class="info">
-                        <div class="name">{game.teams.firstTeam.name}</div>
-                        <div class="rate">{game.teams.firstTeam.rate}</div>
-                    </div>
-                </div>
-                <div class="middle-cell">
-                    <div class="time">{game.time}</div>
-                    <div class="middle-rate">{game.teams.draw.rate}</div>
-                </div>
-                <div class="mirror-cell">
-                    <img class="mirror-image" src="https://{game.teams.secondTeam.logo}" alt="Second team logo">
-                    <div class="mirror-info">
-                        <div class="name">{game.teams.secondTeam.name}</div>
-                        <div class="rate">{game.teams.secondTeam.rate}</div>
-                    </div>
-                </div>
-            </div>'''
+        for date in date_list:
+            block = f'''<div class="date">{date}</div>
+            <div class="table">'''
 
-            body+=section
+            body+=block
+
+            for game in game_models_list:
+                section = f'''<div class="row">
+                    <div class="cell">
+                        <img class="image" src="https://{game.teams.firstTeam.logo}" alt="First team logo">
+                        <div class="info">
+                            <div class="name">{game.teams.firstTeam.name}</div>
+                            <div class="rate">{game.teams.firstTeam.rate}</div>
+                        </div>
+                    </div>
+                    <div class="middle-cell">
+                        <div class="time">{game.time}</div>
+                        <div class="middle-rate">{game.teams.draw.rate}</div>
+                    </div>
+                    <div class="mirror-cell">
+                        <img class="mirror-image" src="https://{game.teams.secondTeam.logo}" alt="Second team logo">
+                        <div class="mirror-info">
+                            <div class="name">{game.teams.secondTeam.name}</div>
+                            <div class="rate">{game.teams.secondTeam.rate}</div>
+                        </div>
+                    </div>
+                </div>'''
+
+                body+=section
 
         return head+body+'</div></div></body></html>'

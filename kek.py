@@ -1,12 +1,6 @@
-from datetime import datetime
-from rutimeparser import parse
+a = [{'date': '1', 'body': 'Первый раз'}, {'date': '1', 'body': 'Первый два'}, {'date': '2', 'body': 'Второй раз'}, {'date': '2', 'body': 'Второй два'}]
 
-a = ['25 апреля', '15 марта']
-b = sorted(a, key=lambda element: int(datetime.strptime(str(parse(element)),'%Y-%m-%d').timestamp()))
-print(b)
 
-# a = ['25 апреля', '15 марта']
-# b = list(map(lambda element: int(datetime.strptime(str(parse(element)),'%Y-%m-%d').timestamp()), a))
-# b.sort()
-# c = list(map(lambda element: parse(datetime.fromtimestamp(element).strftime('%Y-%m-%d')).strftime('%d %B'), b))
-# print(c)
+
+for i in a:
+    locals()[f'{list(i.keys())[0]}{list(i.values())[0]}'] = []
