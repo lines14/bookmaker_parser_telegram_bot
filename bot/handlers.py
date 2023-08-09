@@ -51,7 +51,7 @@ async def restart_command_for_all_FSM(message: types.Message, state: FSMContext)
 
 async def start_creation(message: types.Message):
     await Generator.generator1.set()
-    await bot.send_message(chat_id=message.from_user.id, text='Введи вид спорта:', reply_markup=cancellation_keyboard)
+    await bot.send_message(chat_id=message.from_user.id, text='Введи заголовок:', reply_markup=cancellation_keyboard)
 
 async def input_competition_type(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
