@@ -1,5 +1,7 @@
 import re
 import json
+from datetime import datetime
+from rutimeparser import parse
 from json_templates import JsonTemplates
 
 class DataUtils:            
@@ -57,3 +59,16 @@ class DataUtils:
             return True
         else:
             return False
+
+    @staticmethod
+    def list_to_matrix_by_date(game_models_list):
+        unix_sorted_game_models_list = sorted(game_models_list, key=lambda game: int(datetime.strptime(str(parse(game.date)),'%Y-%m-%d').timestamp()))
+        date_dict = {}
+        for item in unix_sorted_game_models_list:
+            date = item.date
+            if date not in date_dict:
+                date_dict[date] = []
+            date_dict[date].append(item)
+
+        game_models_matrix = list(date_dict.values())
+        return game_models_matrix

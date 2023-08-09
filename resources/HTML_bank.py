@@ -1,5 +1,5 @@
 class HTMLBank:
-    def get_HTML_from_template(competition_type, tournament_name, game_models_list):
+    def get_HTML_from_template(competition_type, tournament_name, game_models_matrix):
         head = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -247,13 +247,13 @@ class HTMLBank:
         </div>'''
 
         body = ''
-        for date in date_list:
-            block = f'''<div class="date">{date}</div>
+        for same_date_game_models in game_models_matrix:
+            block = f'''<div class="date">{same_date_game_models[0].date}</div>
             <div class="table">'''
 
             body+=block
 
-            for game in game_models_list:
+            for game in same_date_game_models:
                 section = f'''<div class="row">
                     <div class="cell">
                         <img class="image" src="https://{game.teams.firstTeam.logo}" alt="First team logo">
