@@ -15,6 +15,7 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--headless=new')
                     options.add_argument('--disable-gpu')
+                    options.add_argument('--no-sandbox')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
