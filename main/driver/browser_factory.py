@@ -25,8 +25,8 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 
                 if (ConfigManager.get_config_data().is_chromium):
                     options.BinaryLocation = '/usr/bin/chromium-browser'
-                    # service = Service(executable_path='/usr/bin/chromedriver')
-                    cls.__instance = webdriver.Chrome('/usr/bin/chromedriver', options=options)
+                    service = Service(executable_path='/usr/bin/chromedriver')
+                    cls.__instance = webdriver.Chrome(service=service, options=options)
                 else:
                     cls.__instance = webdriver.Chrome(options=options)
                 
