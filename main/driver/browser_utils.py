@@ -11,7 +11,9 @@ class BrowserUtils:
 
     @staticmethod
     def get_url(_):
+        Logger.log('    ▶ get url')
         BrowserFactory.instance.get(_)
+        Logger.log('    ▶ url is open')
 
     @staticmethod
     def scroll_to_the_bottom():
