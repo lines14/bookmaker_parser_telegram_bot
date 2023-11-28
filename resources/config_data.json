@@ -5,8 +5,8 @@
     "is_maximize": true,
     "is_headless": true,
     "is_logger": true,
-    "wait_time": 180,
-    "timeout": 360,
+    "wait_time": 360,
+    "timeout": 720,
     "names_length": 9,
     "large_size": [
         1080,
