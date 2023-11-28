@@ -17,6 +17,7 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     options.add_argument('--disable-gpu')
                     options.add_argument('--no-sandbox')
                     options.add_argument('--disable-setuid-sandbox')
+                    options.add_argument('--disable-dev-shm-usage')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
