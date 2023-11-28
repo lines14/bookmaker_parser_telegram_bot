@@ -7,6 +7,7 @@ class BrowserUtils:
     def init_the_driver():
         Logger.log('    ▶ init driver')
         BrowserFactory.init_instance()
+        Logger.log('    ▶ init driver successful')
 
     @staticmethod
     def get_url(_):
