@@ -11,12 +11,12 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
         if (cls.__instance is None):
             if (ConfigManager.get_config_data().browser == 'chrome'):
                 options = webdriver.ChromeOptions()
-                options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--no-sandbox')
                     # options.add_argument('--headless=new')
                     options.add_argument('--headless')
                     options.add_argument('--disable-gpu')
+                    options.add_argument('--disable-software-rasterizer')
                     options.add_argument('--disable-setuid-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
                     options.add_argument('--remote-debugging-port=9222')
@@ -25,6 +25,7 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument('--lang={}'.format(browser_locale))
                 
+                options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_chromium):
                     options.BinaryLocation = '/snap/bin/chromium'
                     service = Service(executable_path='/snap/bin/chromium.chromedriver')
