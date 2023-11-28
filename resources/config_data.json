@@ -1,5 +1,5 @@
 {
-    "browser": "firefox",
+    "browser": "chrome",
     "is_chromium": false,
     "locale": "ru",
     "is_maximize": true,
