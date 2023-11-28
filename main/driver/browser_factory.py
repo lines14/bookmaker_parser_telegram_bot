@@ -1,5 +1,6 @@
 import classutilities
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from main.utils.data.config_manager import ConfigManager
 
 class BrowserFactory(classutilities.ClassPropertiesMixin):
@@ -10,9 +11,6 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
         if (cls.__instance is None):
             if (ConfigManager.get_config_data().browser == 'chrome'):
                 options = webdriver.ChromeOptions()
-                if (ConfigManager.get_config_data().is_chromium):
-                    options.BinaryLocation = '/usr/bin/chromium-browser'
-
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--headless=new')
@@ -23,7 +21,9 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     options.add_argument('--lang={}'.format(browser_locale))
                 
                 if (ConfigManager.get_config_data().is_chromium):
-                    cls.__instance = webdriver.Chrome(executable_path='/usr/bin/chromedriver',options=options)
+                    options.BinaryLocation = '/usr/bin/chromium-browser'
+                    service = Service(executable_path='/usr/bin/chromedriver')
+                    cls.__instance = webdriver.Chrome(service=service, options=options)
                 else:
                     cls.__instance = webdriver.Chrome(options=options)
                 
