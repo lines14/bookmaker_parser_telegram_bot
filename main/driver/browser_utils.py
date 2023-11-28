@@ -12,6 +12,7 @@ class BrowserUtils:
     @staticmethod
     def get_url(_):
         BrowserFactory.instance.get(_)
+        print('got url')
 
     @staticmethod
     def scroll_to_the_bottom():
