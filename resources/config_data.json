@@ -1,6 +1,6 @@
 {
-    "browser": "chrome",
-    "is_chromium": true,
+    "browser": "firefox",
+    "is_chromium": false,
     "locale": "ru",
     "is_maximize": true,
     "is_headless": true,
