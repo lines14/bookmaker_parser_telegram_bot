@@ -4,7 +4,7 @@
     "locale": "ru",
     "is_maximize": true,
     "is_headless": true,
-    "is_logger": false,
+    "is_logger": true,
     "wait_time": 15,
     "timeout": 20,
     "names_length": 9,
