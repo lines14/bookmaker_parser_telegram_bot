@@ -1,6 +1,7 @@
 import locale
 from rutimeparser import parse
 from main.base_form import BaseForm
+from main.utils.log.logger import Logger
 from main.elements.base_element_children.label import Label
 locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
@@ -13,6 +14,7 @@ class CommandsPairPage(BaseForm):
         self.logo = Label('//span[contains(@class, "team-icon--")]', 'logo')
 
     def get_date_time_rates(self):
+        Logger.log('    ▶ get game data')
         rates_list = self.rates_rows.parse_elements_for_text()
         rates_list.reverse()
         summary_list = rates_list.pop().split('\n')

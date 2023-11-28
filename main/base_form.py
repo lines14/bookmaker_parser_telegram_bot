@@ -21,6 +21,7 @@ class BaseForm:
         return (self.get_unique_element()).is_enabled()
     
     def wait_page_is_visible(self):
+        Logger.log('    ▶ wait page is visible')
         WaitUtils.wait_element_visible(self.page_locator)
     
     def wait_page_is_clickable(self):
