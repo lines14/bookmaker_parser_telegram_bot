@@ -27,8 +27,8 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_chromium):
-                    options.BinaryLocation = '/snap/bin/chromium'
-                    service = Service(executable_path='/snap/bin/chromium.chromedriver')
+                    options.BinaryLocation = '/home/lines14/.local/bin/chromium-browser'
+                    service = Service(executable_path='/home/lines14/.local/bin/chromedriver')
                     cls.__instance = webdriver.Chrome(service=service, options=options)
                 else:
                     cls.__instance = webdriver.Chrome(options=options)
