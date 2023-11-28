@@ -13,11 +13,12 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 options = webdriver.ChromeOptions()
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
+                    options.add_argument('--no-sandbox')
                     options.add_argument('--headless=new')
                     options.add_argument('--disable-gpu')
-                    options.add_argument('--no-sandbox')
                     options.add_argument('--disable-setuid-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument('--remote-debugging-port=9222')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
