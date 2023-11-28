@@ -6,7 +6,7 @@
     "is_headless": true,
     "is_logger": true,
     "wait_time": 180,
-    "timeout": 20,
+    "timeout": 360,
     "names_length": 9,
     "large_size": [
         1080,
