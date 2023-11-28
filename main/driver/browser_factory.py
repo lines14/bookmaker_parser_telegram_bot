@@ -10,6 +10,9 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
         if (cls.__instance is None):
             if (ConfigManager.get_config_data().browser == 'chrome'):
                 options = webdriver.ChromeOptions()
+                if (ConfigManager.get_config_data().is_chromium):
+                    options.BinaryLocation = '/usr/bin/chromium-browser'
+
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--headless=new')
@@ -18,8 +21,12 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument('--lang={}'.format(browser_locale))
-
-                cls.__instance = webdriver.Chrome(options=options)
+                
+                if (ConfigManager.get_config_data().is_chromium):
+                    cls.__instance = webdriver.Chrome(executable_path='/usr/bin/chromedriver',options=options)
+                else:
+                    cls.__instance = webdriver.Chrome(options=options)
+                
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
 
