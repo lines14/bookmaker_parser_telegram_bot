@@ -22,7 +22,6 @@ class BaseForm:
     
     def wait_page_is_visible(self):
         WaitUtils.wait_element_visible(self.page_locator)
-        print('got the page')
     
     def wait_page_is_clickable(self):
         WaitUtils.wait_element_clickable(self.page_locator)

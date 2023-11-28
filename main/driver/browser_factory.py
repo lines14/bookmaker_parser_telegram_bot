@@ -56,8 +56,6 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     
                 if (ConfigManager.get_config_data().timeout):
                     cls.__instance.set_page_load_timeout(ConfigManager.get_config_data().timeout)
-        
-        print(cls.instance)
 
     @classutilities.classproperty
     def instance(cls):
