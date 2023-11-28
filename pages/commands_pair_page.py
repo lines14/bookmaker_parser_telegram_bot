@@ -6,11 +6,11 @@ locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
 class CommandsPairPage(BaseForm):
     def __init__(self):
-        super().__init__('//div[contains(@class, "tab--") and contains(text(), "1-й")]', 'match page')
-        self.rates_rows = Label('//div[contains(@class, "row-common--")]', 'rates rows')
-        self.date = Label('//span[contains(@class, "ev-line-time__day--")]', 'date')
-        self.time = Label('//span[contains(@class, "ev-line-time__time--")]', 'time')
-        self.logo = Label('//i[contains(@class, "ev-team__logo--")]', 'logo')
+        super().__init__('//span[contains(@class, "tab--") and contains(text(), "1-й")]', 'match page')
+        self.rates_rows = Label('//div[contains(@class, "normal-row--")]', 'rates rows')
+        self.date = Label('//span[contains(@class, "scoreboard-compact__main__time--")]//span[1]', 'date')
+        self.time = Label('//span[contains(@class, "scoreboard-compact__main__time--")]//span[2]', 'time')
+        self.logo = Label('//span[contains(@class, "team-icon--")]', 'logo')
 
     def get_date_time_rates(self):
         rates_list = self.rates_rows.parse_elements_for_text()
