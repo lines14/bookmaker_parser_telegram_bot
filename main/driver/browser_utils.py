@@ -5,9 +5,9 @@ from main.driver.browser_factory import BrowserFactory
 class BrowserUtils:
     @staticmethod
     def init_the_driver():
-        Logger.log('    ▶ init driver')
+        Logger.log('    ▶ init driver:')
         BrowserFactory.init_instance()
-        Logger.log('    ▶ init driver successful')
+        Logger.log('    ▶ driver is ready')
 
     @staticmethod
     def get_url(_):
