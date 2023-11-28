@@ -5,7 +5,7 @@
     "is_maximize": true,
     "is_headless": true,
     "is_logger": true,
-    "wait_time": 15,
+    "wait_time": 180,
     "timeout": 20,
     "names_length": 9,
     "large_size": [
