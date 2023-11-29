@@ -57,4 +57,4 @@ class Parser:
     @staticmethod
     async def generate_picture():
         HTMLUtils.generate_HTML(summary_links_model.competition_type, summary_links_model.tournament_name, DataUtils.list_to_matrix_by_date(game_models_list))
-        HTMLUtils.HTML_to_jpg(ConfigManager.get_config_data().large_size)
+        # HTMLUtils.HTML_to_jpg(ConfigManager.get_config_data().large_size)
