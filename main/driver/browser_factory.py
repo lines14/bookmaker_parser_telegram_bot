@@ -19,7 +19,7 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     options.add_argument('--disable-software-rasterizer')
                     options.add_argument('--disable-setuid-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
-                    options.add_argument('--remote-debugging-address="localhost"')
+                    options.add_argument('--remote-debugging-address=0.0.0.0')
                     options.add_argument('--remote-debugging-port=9222')
 
                 if (ConfigManager.get_config_data().locale):
