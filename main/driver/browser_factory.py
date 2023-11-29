@@ -20,20 +20,14 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     options.add_argument('--disable-software-rasterizer')
                     options.add_argument('--disable-setuid-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
-                    options.add_argument('--remote-debugging-address=0.0.0.0')
-                    options.add_argument('--remote-debugging-port=9222')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument('--lang={}'.format(browser_locale))
                 
                 options.add_argument('--incognito')
-                if (ConfigManager.get_config_data().is_chromium):
-                    # options.BinaryLocation = '/home/lines14/.local/bin/usr/bin/chromium-browser'
-                    service = Service(executable_path=ChromeDriverManager().install())
-                    cls.__instance = webdriver.Chrome(service=service, options=options)
-                else:
-                    cls.__instance = webdriver.Chrome(options=options)
+                service = Service(executable_path=ChromeDriverManager().install())
+                cls.__instance = webdriver.Chrome(service=service, options=options)
                 
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()

@@ -111,7 +111,7 @@ async def check_names(message: types.Message, state: FSMContext):
 async def generate(message: types.Message, state: FSMContext):
     await Parser.add_short_names(state)
     await Parser.generate_picture()
-    # await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
+    await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
     await state.finish()
 
 async def input_short_name(message: types.Message):

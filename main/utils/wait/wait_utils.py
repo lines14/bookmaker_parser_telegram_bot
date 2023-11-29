@@ -20,7 +20,6 @@ class WaitUtils:
     @staticmethod
     def wait_element_visible(locator):
         WebDriverWait(BrowserFactory.instance, ConfigManager.get_config_data().wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, locator)))
-        print(BrowserFactory.instance.title)
 
     @staticmethod
     def wait_element_staleness_of(locator):
