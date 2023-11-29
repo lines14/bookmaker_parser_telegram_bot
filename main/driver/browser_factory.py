@@ -1,6 +1,7 @@
 import classutilities
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from main.utils.data.config_manager import ConfigManager
 
 class BrowserFactory(classutilities.ClassPropertiesMixin):
@@ -28,8 +29,8 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 
                 options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_chromium):
-                    options.BinaryLocation = '/home/lines14/.local/bin/usr/bin/chromium-browser'
-                    service = Service(executable_path='/home/lines14/.local/bin/usr/bin/chromedriver')
+                    # options.BinaryLocation = '/home/lines14/.local/bin/usr/bin/chromium-browser'
+                    service = Service(executable_path=ChromeDriverManager().install())
                     cls.__instance = webdriver.Chrome(service=service, options=options)
                 else:
                     cls.__instance = webdriver.Chrome(options=options)
