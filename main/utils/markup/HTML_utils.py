@@ -12,4 +12,5 @@ class HTMLUtils:
 
     def HTML_to_jpg(size):
         hti = Html2Image(output_path=destination, size=tuple(size), custom_flags='--disable-gpu')
+        hti.browser_executable = "/usr/bin/google-chrome"
         hti.screenshot(url=f'{destination}/index.html', save_as='index.jpg')
