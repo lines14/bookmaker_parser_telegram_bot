@@ -2,6 +2,7 @@ from pathlib import Path
 from html2image import Html2Image
 from resources.HTML_bank import HTMLBank
 destination = Path(__file__).resolve().parent.parent.parent.parent
+print(destination)
 
 class HTMLUtils:
     @staticmethod
