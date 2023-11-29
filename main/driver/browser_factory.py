@@ -14,12 +14,8 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                 options = webdriver.ChromeOptions()
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--no-sandbox')
-                    # options.add_argument('--headless=new')
-                    options.add_argument('--headless')
+                    options.add_argument('--headless=new')
                     options.add_argument('--disable-gpu')
-                    options.add_argument('--disable-software-rasterizer')
-                    options.add_argument('--disable-setuid-sandbox')
-                    options.add_argument('--disable-dev-shm-usage')
 
                 if (ConfigManager.get_config_data().locale):
                     browser_locale = ConfigManager.get_config_data().locale
