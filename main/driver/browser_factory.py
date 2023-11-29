@@ -12,6 +12,7 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
         if (cls.__instance is None):
             if (ConfigManager.get_config_data().browser == 'chrome'):
                 options = webdriver.ChromeOptions()
+                options.add_argument('--incognito')
                 if (ConfigManager.get_config_data().is_headless):
                     options.add_argument('--no-sandbox')
                     options.add_argument('--headless=new')
@@ -21,7 +22,6 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument('--lang={}'.format(browser_locale))
                 
-                options.add_argument('--incognito')
                 service = Service(executable_path=ChromeDriverManager().install())
                 cls.__instance = webdriver.Chrome(service=service, options=options)
                 
