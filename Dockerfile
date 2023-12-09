@@ -18,7 +18,7 @@ ENV PATH="/app/myenv/bin:$PATH"
 
 RUN pip install --upgrade pip
 
-FROM python:3-alpine
+FROM python:3.10-alpine
 
 WORKDIR /app
 
