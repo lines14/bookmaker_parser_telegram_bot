@@ -6,8 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && \
-    apk upgrade
+RUN apk update && apk upgrade && apk add build-base
 
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
