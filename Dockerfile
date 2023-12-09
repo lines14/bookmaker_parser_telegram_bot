@@ -26,7 +26,7 @@ COPY --from=builder /app/myenv /app/myenv
 ENV PATH="/app/myenv/bin:$PATH"
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt --use-pep517
+RUN pip install -r requirements.txt
 
 COPY . .
 
