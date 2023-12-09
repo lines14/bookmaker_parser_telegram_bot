@@ -6,7 +6,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && apk upgrade && apk add libxml2-dev libxslt-dev
+RUN apk update && apk upgrade
+
+RUN apk add --no-cache build-base gcc musl-dev python3-dev libffi-dev libxml2-dev libxslt-dev
 
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
