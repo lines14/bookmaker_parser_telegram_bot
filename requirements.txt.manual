@@ -1,0 +1,7 @@
+aiogram==2.25.1
+classutilities==0.2.1
+html2image==2.0.3
+jsontemplates==0.1.0
+rutimeparser==1.1.1
+selenium==4.11.2
+webdriver-manager==4.0.1
