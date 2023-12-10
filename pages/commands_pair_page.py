@@ -1,9 +1,5 @@
-import locale
-from rutimeparser import parse
 from main.base_form import BaseForm
-from main.utils.log.logger import Logger
 from main.elements.base_element_children.label import Label
-locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
 class CommandsPairPage(BaseForm):
     def __init__(self):
@@ -21,7 +17,7 @@ class CommandsPairPage(BaseForm):
             summary_list.insert(2, None)
             summary_list.insert(2, None)
         
-        summary_list.append(parse(self.date.get_text()).strftime('%d %B'))
+        summary_list.append(self.date.get_text())
         summary_list.append(self.time.get_text())
         logo_list = self.logo.parse_elements_for_attr('style')
         for logo_link in logo_list:

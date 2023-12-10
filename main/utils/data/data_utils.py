@@ -1,8 +1,10 @@
 import re
 import json
+import locale
 from datetime import datetime
 from rutimeparser import parse
 from json_templates import JsonTemplates
+locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
 class DataUtils:            
     @classmethod

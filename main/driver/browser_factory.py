@@ -1,7 +1,7 @@
 import classutilities
 from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from main.utils.data.config_manager import ConfigManager
 
 class BrowserFactory(classutilities.ClassPropertiesMixin):
@@ -22,9 +22,8 @@ class BrowserFactory(classutilities.ClassPropertiesMixin):
                     browser_locale = ConfigManager.get_config_data().locale
                     options.add_argument('--lang={}'.format(browser_locale))
                 
-                # service = Service(executable_path=ChromeDriverManager().install())
-                # cls.__instance = webdriver.Chrome(service=service, options=options)
-                cls.__instance = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+                service = Service(executable_path=ChromeDriverManager().install())
+                cls.__instance = webdriver.Chrome(service=service, options=options)
                 
                 if (ConfigManager.get_config_data().is_maximize):
                     cls.__instance.maximize_window()
