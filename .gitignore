@@ -6,3 +6,4 @@ index.jpg
 resources/database.db
 .env
 configmap.yaml
+ingress.yaml
