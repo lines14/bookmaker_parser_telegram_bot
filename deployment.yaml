@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookmaker_parser_telegram_bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookmaker_parser_telegram_bot
+  template:
+    metadata:
+      labels:
+        app: bookmaker_parser_telegram_bot
+    spec:
+      containers:
+      - name: bookmaker_parser_telegram_bot
+        image: bookmaker_parser_telegram_bot:latest
+        ports:
+        - containerPort: 2226
