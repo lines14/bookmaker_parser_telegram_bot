@@ -7,6 +7,6 @@ spec:
   ports:
   - port: 2226
     targetPort: 2226
-    nodePort: 2226
+    nodePort: 31000
   selector:
     app: bookmaker-parser-telegram-bot
