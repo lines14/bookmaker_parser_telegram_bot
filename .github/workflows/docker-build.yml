@@ -1,0 +1,30 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
+      with:
+        dockerfile: Dockerfile
+
+    - name: Build Docker image
+      run: docker build -t lines14/bookmaker_parser_telegram_bot:latest .
+
+    - name: Log in to Docker Hub (if needed)
+      if: secrets.DOCKER_USERNAME && secrets.DOCKER_TOKEN
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+
+    - name: Push Docker image
+      if: secrets.DOCKER_USERNAME && secrets.DOCKER_TOKEN
+      run: docker push lines14/bookmaker_parser_telegram_bot:latest
