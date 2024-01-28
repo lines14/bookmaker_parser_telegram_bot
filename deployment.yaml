@@ -17,3 +17,5 @@ spec:
         image: bookmaker_parser_telegram_bot:latest
         ports:
         - containerPort: 2226
+      imagePullSecrets:
+      - name: docker-credentials
