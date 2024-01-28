@@ -45,5 +45,5 @@ spec:
             name: my-configmap
         ports:
         - containerPort: 2226
-  imagePullSecrets:
-  - name: docker-credentials
+      imagePullSecrets:
+      - name: docker-credentials
