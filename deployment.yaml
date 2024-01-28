@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bookmaker_parser_telegram_bot
+  name: bookmaker
 spec:
   replicas: 1
   selector:
