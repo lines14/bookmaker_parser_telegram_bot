@@ -5,3 +5,4 @@ index.html
 index.jpg
 resources/database.db
 .env
+configmap.yaml
