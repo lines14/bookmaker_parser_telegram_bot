@@ -19,12 +19,10 @@ jobs:
         dockerfile: Dockerfile
 
     - name: Build Docker image
-      run: docker build -t lines14/bookmaker_parser_telegram_bot:latest .
+      run: docker build -t your-image-name:latest .
 
-    - name: Log in to Docker Hub (if needed)
-      if: secrets.DOCKER_USERNAME && secrets.DOCKER_TOKEN
+    - name: Log in to Docker Hub
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
 
     - name: Push Docker image
-      if: secrets.DOCKER_USERNAME && secrets.DOCKER_TOKEN
-      run: docker push lines14/bookmaker_parser_telegram_bot:latest
+      run: docker push your-image-name:latest
