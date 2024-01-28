@@ -12,11 +12,4 @@ WEBHOOK_URL=f'https://{WEBHOOK_HOST}{WEBHOOK_PATH}'
 # webserver settings
 WEBAPP_HOST = os.getenv('WEBAPP_HOST')
 WEBAPP_PORT = os.getenv('WEBAPP_PORT')
-
-print(type(WEBAPP_PORT))
-print(WEBAPP_PORT)
-
 WEBAPP_PORT = WEBAPP_PORT if type(WEBAPP_PORT) == int else int(WEBAPP_PORT)
-
-print(type(WEBAPP_PORT))
-print(WEBAPP_PORT)
