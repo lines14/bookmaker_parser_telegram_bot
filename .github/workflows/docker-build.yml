@@ -14,15 +14,16 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Docker
-      uses: docker/setup-docker@v2
+      uses: docker/cli@v2
       with:
-        dockerfile: Dockerfile
+        version: '20.10.9'  # Specify the Docker version you want to use
+        service-account: your-github-username  # Specify your GitHub username
 
     - name: Build Docker image
-      run: docker build -t your-image-name:latest .
+      run: docker build -t lines14/bookmaker_parser_telegram_bot:latest .
 
     - name: Log in to Docker Hub
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
 
     - name: Push Docker image
-      run: docker push your-image-name:latest
+      run: docker push lines14/bookmaker_parser_telegram_bot:latest
