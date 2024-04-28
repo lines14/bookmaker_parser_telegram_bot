@@ -185,6 +185,11 @@ async def selenium_timeout_exception_handler(update: types.Update, exception: co
     await bot.send_message(chat_id = update.message.from_user.id, text='Проблемы с интернетом или одна из ссылок некорректна, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
     return True
 
+async def selenium_no_such_element_exception_handler(update: types.Update, exception: common.exceptions.NoSuchElementException):
+    BrowserUtils.quit_driver()
+    await bot.send_message(chat_id = update.message.from_user.id, text='Элемент не найден на странице, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+    return True
+
 # Регистратура хэндлеров бота
 
 def register_handlers(dp: Dispatcher):
@@ -221,3 +226,4 @@ def register_handlers(dp: Dispatcher):
 
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)
+    dp.register_errors_handler(selenium_no_such_element_exception_handler, exception=common.exceptions.NoSuchElementException)
