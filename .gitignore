@@ -8,3 +8,4 @@ resources/database.db
 configmap.yaml
 ingress.yaml
 kube/
+kub/
