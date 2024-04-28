@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  TG_TOKEN: '6396624704:AAEa7EGBfe6MPA-6hhKgpbHNyVFqF-gXbO0'
+  WEBAPP_HOST: '0.0.0.0'
+  WEBAPP_PORT: '2226'
+  WEBHOOK_HOST: 'bot.lines14.site'

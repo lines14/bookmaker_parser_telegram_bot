@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: ingress-nginx
+  annotations:
+      cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - bot.lines14.site
+    secretName: letsencrypt-prod
+  rules:
+  - host: bot.lines14.site
+    http:
+      paths:
+      - path: /6396624704:AAEa7EGBfe6MPA-6hhKgpbHNyVFqF-gXbO0
+        pathType: Exact
+        backend:
+          service:
+            name: bookmaker-parser-telegram-bot
+            port:
+              number: 81
