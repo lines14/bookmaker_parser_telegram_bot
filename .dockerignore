@@ -26,3 +26,6 @@ LICENSE
 README.md
 **/.env
 **/reserve
+**/kube
+**/index.html
+**/index.jpg
