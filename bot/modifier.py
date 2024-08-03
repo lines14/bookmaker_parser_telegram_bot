@@ -1,8 +1,4 @@
-from pages.commands_pair_page import CommandsPairPage
-from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
-from main.utils.markup.HTML_utils import HTMLUtils
-from main.utils.data.config_manager import ConfigManager
 from main.utils.DB.database_utils import DatabaseUtils
 
 class Modificator:
