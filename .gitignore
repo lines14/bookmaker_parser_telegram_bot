@@ -3,4 +3,4 @@ index.html
 index.jpg
 resources/database.db
 .env
-kube/
+kube/configmap-bot.yaml
