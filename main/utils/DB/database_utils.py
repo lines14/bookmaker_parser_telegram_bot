@@ -1,12 +1,13 @@
 import sqlite3 as sq
 from pathlib import Path
-destination = Path(__file__).resolve().parent.parent.parent.parent
+from bot.config import DB_PATH
+path = Path(__file__).resolve().parent.parent.parent.parent
 
 class DatabaseUtils:
     @staticmethod
     def sql_start():
         global base, cur
-        base = sq.connect(f'{destination}/resources/database.db')
+        base = sq.connect(f'{path}{DB_PATH}')
         cur = base.cursor()
         if base:
             print('[ОК] - База данных подключена!')

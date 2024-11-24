@@ -12,7 +12,7 @@ from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
 from main.utils.data.config_manager import ConfigManager
 from selenium import common
-destination = Path(__file__).resolve().parent.parent
+path = Path(__file__).resolve().parent.parent
 
 # Машины состояний бота
 
@@ -111,7 +111,7 @@ async def check_names(message: types.Message, state: FSMContext):
 async def generate(message: types.Message, state: FSMContext):
     await Parser.add_short_names(state)
     await Parser.generate_picture()
-    await message.reply_document(open(f'{destination}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
+    await message.reply_document(open(f'{path}/index.jpg', 'rb'), reply_markup=main_menu_keyboard)
     await state.finish()
 
 async def input_short_name(message: types.Message):
