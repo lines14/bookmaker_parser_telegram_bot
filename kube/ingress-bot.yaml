@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - bot.lines14.site
+    - bot.lines14.space
     secretName: letsencrypt-prod
   rules:
-  - host: bot.lines14.site
+  - host: bot.lines14.space
     http:
       paths:
       - path: /?(.*)
