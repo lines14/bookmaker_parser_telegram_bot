@@ -12,6 +12,7 @@ from main.driver.browser_utils import BrowserUtils
 from main.utils.data.data_utils import DataUtils
 from main.utils.data.config_manager import ConfigManager
 from selenium import common
+from bot.exceptions import InvalidTeamLogoLinkException
 path = Path(__file__).resolve().parent.parent
 
 # Машины состояний бота
@@ -195,6 +196,11 @@ async def selenium_stale_element_reference_exception_handler(update: types.Updat
     await bot.send_message(chat_id = update.message.from_user.id, text='Элемент отвалился от DOM, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
     return True
 
+async def invalid_team_logo_link_exception_handler(update: types.Update, exception: InvalidTeamLogoLinkException):
+    BrowserUtils.quit_driver()
+    await bot.send_message(chat_id = update.message.from_user.id, text='Ссылка на эмблему одной из команд не подгрузилась, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+    return True
+
 # Регистратура хэндлеров бота
 
 def register_handlers(dp: Dispatcher):
@@ -232,4 +238,5 @@ def register_handlers(dp: Dispatcher):
     dp.register_errors_handler(exception_handler, exception=exceptions.RetryAfter)
     dp.register_errors_handler(selenium_timeout_exception_handler, exception=common.exceptions.TimeoutException)
     dp.register_errors_handler(selenium_no_such_element_exception_handler, exception=common.exceptions.NoSuchElementException)
+    dp.register_errors_handler(invalid_team_logo_link_exception_handler, exception=InvalidTeamLogoLinkException)
     dp.register_errors_handler(selenium_stale_element_reference_exception_handler, exception=common.exceptions.StaleElementReferenceException)

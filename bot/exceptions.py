@@ -1,0 +1,2 @@
+class InvalidTeamLogoLinkException(Exception):
+    pass

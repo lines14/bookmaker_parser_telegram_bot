@@ -1,4 +1,5 @@
 from main.base_form import BaseForm
+from bot.exceptions import InvalidTeamLogoLinkException
 from main.elements.base_element_children.label import Label
 
 class CommandsPairPage(BaseForm):
@@ -21,7 +22,9 @@ class CommandsPairPage(BaseForm):
         summary_list.append(self.time.get_text())
         logo_list = self.logo.parse_elements_for_attr('style')
         for logo_link in logo_list:
-            if 'background-image' in logo_link:
+            if 'color: var(--transparentWhite48);' in logo_link:
+                raise InvalidTeamLogoLinkException()
+            elif 'background-image' in logo_link:
                 summary_list.append(logo_link[25:-3])
             else:
                 summary_list.append(None)
