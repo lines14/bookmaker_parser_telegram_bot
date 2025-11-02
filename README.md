@@ -5,4 +5,4 @@ Add RU locale for correct work:\
 sudo locale-gen ru_RU\
 sudo locale-gen ru_RU.UTF-8\
 sudo update-locale\
-sudo dpkg-reconfigure locales\
+sudo dpkg-reconfigure locales
