@@ -67,6 +67,8 @@ class HTMLBank:
             max-width: 1080px;
             margin: 0 auto;
             color: rgb(255, 255, 255);
+            overflow-x: hidden;
+            overflow-y: hidden;
         }}
         .background {{
             display: flex;
