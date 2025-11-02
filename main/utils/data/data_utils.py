@@ -7,6 +7,10 @@ from json_templates import JsonTemplates
 locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
 class DataUtils:            
+    @staticmethod
+    def model_to_dict(model):
+        return {key: value for key, value in vars(model).items() if not key.startswith('__')}
+
     @classmethod
     def nested_data_to_models(cls, dict):
         obj = cls()
@@ -37,8 +41,8 @@ class DataUtils:
     
     @staticmethod
     def links_processing(text):
-        if 'fonbet.kz' in text:
-            if text.count('fonbet.kz') > 1:
+        if 'fon.bet' in text:
+            if text.count('fon.bet') > 1:
                 if ',' in text:
                     splitted = text.split(',')
                 elif '\n' in text:

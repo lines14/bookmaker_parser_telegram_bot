@@ -32,9 +32,9 @@ class Parser:
     async def check_names_length():
         long_names_list = []
         for game in game_models_list:
-            if len(game.teams.firstTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.teams.firstTeam.name)[0][0]:
+            if len(game.teams.firstTeam.name) > ConfigManager.config_data.names_length and not DatabaseUtils.sql_get_short_name(game.teams.firstTeam.name)[0][0]:
                 long_names_list.append(DataUtils.dict_to_model(game.teams.firstTeam.name))
-            if len(game.teams.secondTeam.name) > ConfigManager.get_config_data().names_length and not DatabaseUtils.sql_get_short_name(game.teams.secondTeam.name)[0][0]:
+            if len(game.teams.secondTeam.name) > ConfigManager.config_data.names_length and not DatabaseUtils.sql_get_short_name(game.teams.secondTeam.name)[0][0]:
                 long_names_list.append(DataUtils.dict_to_model(game.teams.secondTeam.name))
         
         if long_names_list:
@@ -57,4 +57,4 @@ class Parser:
     @staticmethod
     async def generate_picture():
         HTMLUtils.generate_HTML(summary_links_model.competition_type, summary_links_model.tournament_name, DataUtils.list_to_matrix_by_date(game_models_list))
-        HTMLUtils.HTML_to_jpg(ConfigManager.get_config_data().large_size)
+        HTMLUtils.HTML_to_jpg(ConfigManager.config_data.large_size)

@@ -75,7 +75,7 @@ class BrowserUtils:
         BrowserFactory.instance.switch_to.frame(id_or_index)
 
     @staticmethod
-    def go_out_Of_frame():
+    def go_out_of_frame():
         Logger.log('    ▶ go out of frame')
         BrowserFactory.instance.switch_to.default_content()
 

@@ -6,7 +6,7 @@ log_list = []
 class Logger:
     @staticmethod
     def log(step):
-        if (ConfigManager.get_config_data().is_logger):
+        if (ConfigManager.config_data.is_logger):
             print(step)
         log_list.append(f' {step}\n')
         time_list.append(f'{datetime.now()}')

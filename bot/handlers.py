@@ -73,7 +73,7 @@ async def input_first_link(message: types.Message):
 async def input_links(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if DataUtils.links_processing(message.text):
-            if message.text.count('fonbet.kz') == 1:
+            if message.text.count('fon.bet') == 1:
                 data['links'].append(DataUtils.links_processing(message.text))
                 await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или проверь названия без неё:', reply_markup=check_keyboard)
             else:
@@ -85,7 +85,7 @@ async def input_links(message: types.Message, state: FSMContext):
                 await bot.send_message(chat_id = message.from_user.id, text='Добавь ещё одну ссылку на матч или проверь названия без неё:', reply_markup=check_keyboard)
                 await Generator.next()
             else:
-                await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на страницы с матчами сайта fonbet.kz, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
+                await bot.send_message(chat_id = message.from_user.id, text='Бот принимает только ссылки на страницы с матчами сайта fon.bet, попробуй ещё раз =)', reply_markup=cancellation_keyboard)
                 await Generator.generator3.set()
                 await input_first_link(message)
 
@@ -161,7 +161,7 @@ async def replace_short_name(message: types.Message, state: FSMContext):
 
 async def start_configuration(message: types.Message):
     await Config.config1.set()
-    names_length = ConfigManager.get_config_data().names_length
+    names_length = ConfigManager.config_data.names_length
     await bot.send_message(chat_id=message.from_user.id, text=f'Текущая требуемая длина коротких названий команд: {names_length}\nЧтобы изменить её, введи новое числовое значение больше нуля:', reply_markup=cancellation_keyboard)
 
 async def set_configuration(message: types.Message, state: FSMContext):

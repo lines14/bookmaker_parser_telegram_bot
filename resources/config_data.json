@@ -14,5 +14,16 @@
     "small_size": [
         1080,
         1080
-    ]
+    ],
+    "selenium_stealth": {
+        "languages": [
+            "ru-RU", 
+            "ru"
+        ],
+        "vendor": "Google Inc.",
+        "platform": "Win32",
+        "webgl_vendor": "Intel Inc.",
+        "renderer": "Intel Iris OpenGL Engine",
+        "fix_hairline": true
+    }
 }

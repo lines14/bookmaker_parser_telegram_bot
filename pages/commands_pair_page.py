@@ -3,7 +3,7 @@ from main.elements.base_element_children.label import Label
 
 class CommandsPairPage(BaseForm):
     def __init__(self):
-        super().__init__('//span[contains(@class, "tab--") and contains(text(), "1-й")]', 'match page')
+        super().__init__('//span[contains(text(), "1-й")]', 'match page')
         self.rates_rows = Label('//div[contains(@class, "normal-row--")]', 'rates rows')
         self.date = Label('//span[contains(@class, "scoreboard-compact__main__time--")]//span[1]', 'date')
         self.time = Label('//span[contains(@class, "scoreboard-compact__main__time--")]//span[2]', 'time')
